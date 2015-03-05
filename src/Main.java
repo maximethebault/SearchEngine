@@ -1,6 +1,14 @@
 public class Main {
+    public Main() {
+
+    }
+
+    public void main() {
+        //tests
+    }
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Main main = new Main();
+        main.main();
     }
 }
