@@ -19,5 +19,27 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/lucene-analyzers-common-5.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="http://lucene.apache.org/core/5_0_0/analyzers-common/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/lucene-queryparser-5.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="http://lucene.apache.org/core/5_0_0/queryparser/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
