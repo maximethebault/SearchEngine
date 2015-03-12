@@ -9,7 +9,7 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.*;
 import java.util.Date;
 
-abstract class IndexingStrategy {
+public abstract class IndexingStrategy {
 
     /**
      * Get the configuration for the indexer

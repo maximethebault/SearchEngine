@@ -7,8 +7,7 @@ public class SearchingStrategy {
     private QueryingStrategy queryingStrategy;
 
     public void performEvaluation() {
-        indexingStrategy.performIndexing();
+        indexingStrategy.performIndexing(null, null);
         SearchResult searchResult = queryingStrategy.performQuerying();
-
     }
 }
