@@ -30,6 +30,7 @@ import org.apache.lucene.store.FSDirectory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -66,27 +67,21 @@ public class SearchFiles {
             if ("-index".equals(args[i])) {
                 index = args[i + 1];
                 i++;
-            }
-            else if ("-field".equals(args[i])) {
+            } else if ("-field".equals(args[i])) {
                 field = args[i + 1];
                 i++;
-            }
-            else if ("-queries".equals(args[i])) {
+            } else if ("-queries".equals(args[i])) {
                 queries = args[i + 1];
                 i++;
-            }
-            else if ("-query".equals(args[i])) {
+            } else if ("-query".equals(args[i])) {
                 queryString = args[i + 1];
                 i++;
-            }
-            else if ("-repeat".equals(args[i])) {
+            } else if ("-repeat".equals(args[i])) {
                 repeat = Integer.parseInt(args[i + 1]);
                 i++;
-            }
-            else if ("-raw".equals(args[i])) {
+            } else if ("-raw".equals(args[i])) {
                 raw = true;
-            }
-            else if ("-paging".equals(args[i])) {
+            } else if ("-paging".equals(args[i])) {
                 hitsPerPage = Integer.parseInt(args[i + 1]);
                 if (hitsPerPage <= 0) {
                     System.err.println("There must be at least 1 hit per page.");
@@ -96,15 +91,19 @@ public class SearchFiles {
             }
         }
 
-        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
+        URI indexUri = URI.create(index);
+        URI queriesUri = null;
+        if (queries != null)
+            queriesUri = URI.create(queries);
+
+        IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexUri)));
         IndexSearcher searcher = new IndexSearcher(reader);
         Analyzer analyzer = new StandardAnalyzer();
 
         BufferedReader in = null;
-        if (queries != null) {
-            in = Files.newBufferedReader(Paths.get(queries), StandardCharsets.UTF_8);
-        }
-        else {
+        if (queriesUri != null) {
+            in = Files.newBufferedReader(Paths.get(queriesUri), StandardCharsets.UTF_8);
+        } else {
             in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
         }
         QueryParser parser = new QueryParser(field, analyzer);
@@ -195,8 +194,7 @@ public class SearchFiles {
                     if (title != null) {
                         System.out.println("   Title: " + doc.get("title"));
                     }
-                }
-                else {
+                } else {
                     System.out.println((i + 1) + ". " + "No path for this document");
                 }
 
@@ -226,20 +224,17 @@ public class SearchFiles {
                     if (line.charAt(0) == 'p') {
                         start = Math.max(0, start - hitsPerPage);
                         break;
-                    }
-                    else if (line.charAt(0) == 'n') {
+                    } else if (line.charAt(0) == 'n') {
                         if (start + hitsPerPage < numTotalHits) {
                             start += hitsPerPage;
                         }
                         break;
-                    }
-                    else {
+                    } else {
                         int page = Integer.parseInt(line);
                         if ((page - 1) * hitsPerPage < numTotalHits) {
                             start = (page - 1) * hitsPerPage;
                             break;
-                        }
-                        else {
+                        } else {
                             System.out.println("No such page");
                         }
                     }
