@@ -13,13 +13,13 @@ public class SearchResults {
     public SearchResults() {
         this.results = new HashMap<Integer, List<Integer>>();
         this.expectedResults = new ArrayList<int[]>();
-        fetchExpectedResults("C:\\Users\\Leclerc\\Desktop\\Documents\\Cours\\4info\\akiko\\resources\\cisi\\CISI.REL");
+        fetchExpectedResults("resources/cisi/CISI.REL");
     }
 
     public SearchResults(Map<Integer, List<Integer>> results) {
         this.results = results;
         this.expectedResults = new ArrayList<int[]>();
-        fetchExpectedResults("C:\\Users\\Leclerc\\Desktop\\Documents\\Cours\\4info\\akiko\\resources\\cisi\\CISI.REL");
+        fetchExpectedResults("resources/cisi/CISI.REL");
     }
 
 
@@ -31,19 +31,17 @@ public class SearchResults {
         this.results = results;
     }
 
-    public void fetchExpectedResults(String filePath){
-        try
-        {
+    public void fetchExpectedResults(String filePath) {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String sCurrentLine;
 
             while ((sCurrentLine = br.readLine()) != null) {
 
                 Scanner scanner = new Scanner(sCurrentLine);
-                int [] numberForCurrentLine = new int [3];
+                int[] numberForCurrentLine = new int[3];
                 int i = 0;
-                while(scanner.hasNextInt())
-                {
+                while (scanner.hasNextInt()) {
                     numberForCurrentLine[i++] = scanner.nextInt();
                 }
 
@@ -56,34 +54,34 @@ public class SearchResults {
     }
 
 
-    public int getUnrecognisedResponses(){
+    public int getUnrecognisedResponses() {
         int unrecognisedResponses = 0;
 
-        for(int[] tab : this.expectedResults){
+        for (int[] tab : this.expectedResults) {
             int requestNumber = tab[0];
             int textNumber = tab[1];
 
-            if(!results.containsKey(requestNumber) || !results.get(requestNumber).contains(textNumber)){
+            if (!results.containsKey(requestNumber) || !results.get(requestNumber).contains(textNumber)) {
                 unrecognisedResponses++;
             }
         }
         return unrecognisedResponses;
     }
 
-    public int getUnexpectedResults(){
+    public int getUnexpectedResults() {
         int unexpectedResults = 0;
         boolean isPresent = false;
 
-        for(Integer requestNumber : this.results.keySet()){
-            for(Integer textNumber : this.results.get(requestNumber)){
-                for(int[] tab : expectedResults){
-                    if(tab[0] == requestNumber && tab[1] == textNumber){
+        for (Integer requestNumber : this.results.keySet()) {
+            for (Integer textNumber : this.results.get(requestNumber)) {
+                for (int[] tab : expectedResults) {
+                    if (tab[0] == requestNumber && tab[1] == textNumber) {
                         isPresent = true;
                     }
                 }
             }
 
-            if(isPresent){
+            if (isPresent) {
                 unexpectedResults++;
                 isPresent = false;
             }
@@ -94,8 +92,8 @@ public class SearchResults {
     public static void main(String[] args) {
         SearchResults sr = new SearchResults();
         int unrecognised = sr.getUnrecognisedResponses();
-        System.out.println("Unrecognised responses : "+unrecognised);
+        System.out.println("Unrecognised responses : " + unrecognised);
         int unexpected = sr.getUnexpectedResults();
-        System.out.println("Unexpected responses : "+unexpected);
+        System.out.println("Unexpected responses : " + unexpected);
     }
 }
