@@ -28,6 +28,7 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
@@ -91,10 +92,10 @@ public class SearchFiles {
             }
         }
 
-        URI indexUri = URI.create(index);
+        URI indexUri = new File(index).toURI();
         URI queriesUri = null;
         if (queries != null)
-            queriesUri = URI.create(queries);
+            queriesUri = new File(queries).toURI();
 
         IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(indexUri)));
         IndexSearcher searcher = new IndexSearcher(reader);
