@@ -32,7 +32,7 @@ public abstract class QueryingStrategy {
 
         Date start = new Date();
 
-        IndexReader reader = null;
+        IndexReader reader;
         try {
             reader = DirectoryReader.open(FSDirectory.open(new File(indexPath).toPath()));
             IndexSearcher searcher = new IndexSearcher(reader);

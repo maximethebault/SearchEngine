@@ -12,7 +12,6 @@ import java.io.IOException;
 public class ConfigurableQuery extends QueryingStrategy {
     private final String tokenizer;
     private final TokenFilterConfig[] tokenFilterConfigs;
-    private boolean optimizeIndex;
 
     public ConfigurableQuery(Entry[] entries, String tokenizer, TokenFilterConfig[] tokenFilterConfigs) {
         super(entries);

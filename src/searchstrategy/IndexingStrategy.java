@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
 
 public abstract class IndexingStrategy {
     private Entry[] articles;
@@ -72,6 +73,25 @@ public abstract class IndexingStrategy {
             System.out.println("Couldn't delete index");
             System.exit(1);
         }
+    }
+
+    public int getIndexSize(String indexPath) {
+        final AtomicLong size = new AtomicLong(0);
+        Path directory = Paths.get(indexPath);
+        try {
+            Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    size.addAndGet(attrs.size());
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
+        catch (IOException e) {
+            System.out.println("Couldn't get index size");
+            e.printStackTrace();
+        }
+        return (int) size.get();
     }
 
     public void buildIndex(String indexPath) {

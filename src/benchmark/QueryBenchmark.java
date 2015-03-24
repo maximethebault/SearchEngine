@@ -3,50 +3,44 @@ package benchmark;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class QueryBenchmark {
-    /**
-     * Associates a query identifier to the list of resulting texts' IDs
-     */
-    private Map<Integer, List<Integer>> results;
-    private List<int[]> expectedResults;
+    private SearchResults actualSearchResults;
+    private SearchResults expectedSearchResults;
 
     public QueryBenchmark() {
-        this.results = new HashMap<Integer, List<Integer>>();
-        this.expectedResults = new ArrayList<int[]>();
         fetchExpectedResults("resources/cisi/CISI.REL");
     }
 
-    public QueryBenchmark(Map<Integer, List<Integer>> results) {
-        this.results = results;
-        this.expectedResults = new ArrayList<int[]>();
-        fetchExpectedResults("resources/cisi/CISI.REL");
+    public SearchResults getActualSearchResults() {
+        return actualSearchResults;
     }
 
-    public Map<Integer, List<Integer>> getResults() {
-        return results;
-    }
-
-    public void setResults(Map<Integer, List<Integer>> results) {
-        this.results = results;
+    public void setActualSearchResults(SearchResults actualSearchResults) {
+        this.actualSearchResults = actualSearchResults;
     }
 
     public void fetchExpectedResults(String filePath) {
+        expectedSearchResults = new SearchResults();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath));
             String sCurrentLine;
 
             while ((sCurrentLine = br.readLine()) != null) {
-
                 Scanner scanner = new Scanner(sCurrentLine);
-                int[] numberForCurrentLine = new int[3];
-                int i = 0;
-                while (scanner.hasNextInt()) {
-                    numberForCurrentLine[i++] = scanner.nextInt();
+                if (!scanner.hasNextInt()) {
+                    continue;
                 }
+                int queryId = scanner.nextInt();
+                if (!scanner.hasNextInt()) {
+                    continue;
+                }
+                int articleId = scanner.nextInt();
 
-                this.expectedResults.add(numberForCurrentLine);
+                expectedSearchResults.addHit(queryId, articleId);
             }
 
         }
@@ -55,46 +49,103 @@ public class QueryBenchmark {
         }
     }
 
-    public int getUnrecognisedResponses() {
-        int unrecognisedResponses = 0;
+    /**
+     * @param queryId
+     *         ID of the query to get the missed matches for
+     *
+     * @return the number of articles that should have matched the query, but weren't present in the results, or -1 if invalid queryId
+     */
+    public int getMissedMatches(int queryId) {
 
-        for (int[] tab : this.expectedResults) {
-            int requestNumber = tab[0];
-            int textNumber = tab[1];
+        if (!actualSearchResults.getResults().containsKey(queryId)) {
+            return expectedSearchResults.getResults().containsKey(queryId) ? expectedSearchResults.getResults().get(queryId).size() : -1;
+        }
 
-            if (!results.containsKey(requestNumber) || !results.get(requestNumber).contains(textNumber)) {
-                unrecognisedResponses++;
+        int missedMatches = 0;
+
+        for (int expectedArticleId : expectedSearchResults.getResults().get(queryId)) {
+            if (!actualSearchResults.getResults().get(queryId).contains(expectedArticleId)) {
+                missedMatches++;
             }
         }
-        return unrecognisedResponses;
+
+        return missedMatches;
     }
 
-    public int getUnexpectedResults() {
-        int unexpectedResults = 0;
-        boolean isPresent = false;
+    /**
+     * @param queryId
+     *         ID of the query to get the bad matches for
+     *
+     * @return the number of articles that shouldn't have appeared in the results, or -1 if invalid queryId
+     */
+    public int getBadMacthes(int queryId) {
 
-        for (Integer requestNumber : this.results.keySet()) {
-            for (Integer textNumber : this.results.get(requestNumber)) {
-                for (int[] tab : expectedResults) {
-                    if (tab[0] == requestNumber && tab[1] == textNumber) {
-                        isPresent = true;
-                    }
-                }
-            }
-
-            if (isPresent) {
-                unexpectedResults++;
-                isPresent = false;
-            }
+        if (!actualSearchResults.getResults().containsKey(queryId)) {
+            return expectedSearchResults.getResults().containsKey(queryId) ? 0 : -1;
         }
-        return unexpectedResults;
+
+        // we'll copy the actual matching articles, iterate through the expected results and remove the expected ids as we meet them
+        List<Integer> actualArticleIds = new ArrayList<Integer>(actualSearchResults.getResults().get(queryId));
+
+        for (Integer expectedArticleId : expectedSearchResults.getResults().get(queryId)) {
+            actualArticleIds.remove(expectedArticleId);
+        }
+
+        return actualArticleIds.size();
     }
 
-    public static void main(String[] args) {
-        QueryBenchmark sr = new QueryBenchmark();
-        int unrecognised = sr.getUnrecognisedResponses();
-        System.out.println("Unrecognised responses : " + unrecognised);
-        int unexpected = sr.getUnexpectedResults();
-        System.out.println("Unexpected responses : " + unexpected);
+    /**
+     * @param queryId
+     *         ID of the query to get the number of matches for
+     *
+     * @return the total number of (actual) matches, or -1 if invalid queryId
+     */
+    public int getActualMatchesSize(int queryId) {
+        if (!actualSearchResults.getResults().containsKey(queryId)) {
+            return -1;
+        }
+        else {
+            return actualSearchResults.getResults().size();
+        }
+    }
+
+    /**
+     * @param queryId
+     *         ID of the query to get the number of matches for
+     *
+     * @return the total number of (expected) matches, or -1 if invalid queryId
+     */
+    public int getExpectedMatchesSize(int queryId) {
+        if (!expectedSearchResults.getResults().containsKey(queryId)) {
+            return -1;
+        }
+        else {
+            return expectedSearchResults.getResults().size();
+        }
+    }
+
+    public float getPrecision() {
+        double accumulatedPrecision = 0;
+
+        for (int queryId : expectedSearchResults.getResults().keySet()) {
+            double actualMatchesSize = getActualMatchesSize(queryId);
+            double badMatches = getBadMacthes(queryId);
+            accumulatedPrecision += (actualMatchesSize - badMatches) / actualMatchesSize;
+        }
+
+        return (float) (accumulatedPrecision / (double) expectedSearchResults.getResults().size());
+    }
+
+    public float getRecall() {
+        double accumulatedPrecision = 0;
+
+        for (int queryId : expectedSearchResults.getResults().keySet()) {
+            double actualMatchesSize = getActualMatchesSize(queryId);
+            double expectedMatchesSize = getExpectedMatchesSize(queryId);
+            double badMatches = getBadMacthes(queryId);
+            accumulatedPrecision += (actualMatchesSize - badMatches) / expectedMatchesSize;
+        }
+
+        return (float) (accumulatedPrecision / (double) expectedSearchResults.getResults().size());
     }
 }

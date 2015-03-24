@@ -1,5 +1,6 @@
 package benchmark;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,13 @@ public class SearchResults {
     }
 
     public void addHit(int queryId, int articleId) {
-
+        if (results.containsKey(queryId)) {
+            results.get(queryId).add(articleId);
+        }
+        else {
+            List<Integer> resultsForQuery = new ArrayList<Integer>();
+            resultsForQuery.add(articleId);
+            results.put(queryId, resultsForQuery);
+        }
     }
 }

@@ -23,13 +23,6 @@ public class ConfigurableIndexer extends IndexingStrategy {
 
     @Override
     protected IndexWriterConfig getIndexWriterConfig() throws IOException {
-        /*
-         * Since we want processing at querying time, we use the most basic analyzer
-         *
-         * StandardAnalyzer/ClassicAnalyzer uses StandardFilter, LowerCaseFilter and StopFilter
-         * WhitespaceAnalyzer performs basic tokenization
-         * KeywordAnalyzer doesn't tokenize or modify anything
-         */
         CustomAnalyzer.Builder builder = CustomAnalyzer.builder();
         builder.withTokenizer(tokenizer);
         for (TokenFilterConfig tokenFilterConfig : tokenFilterConfigs) {
