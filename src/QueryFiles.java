@@ -40,9 +40,9 @@ import java.util.Date;
 /**
  * Simple command-line based search demo.
  */
-public class SearchFiles {
+public class QueryFiles {
 
-    private SearchFiles() {
+    private QueryFiles() {
     }
 
     /**

@@ -2,6 +2,7 @@ package searchstrategy;
 
 import benchmark.BenchmarkResult;
 import benchmark.SearchBenchmark;
+import benchmark.SearchResults;
 
 public class SearchingStrategy {
     private static int INSTANCE_NB = 0;
@@ -37,7 +38,7 @@ public class SearchingStrategy {
         }
         benchmarkResult.setIndexingTime(((float) totalIndexTime) / (float) SearchBenchmark.BENCHMARK_ITERATION);
 
-        //SearchResult searchResult = queryingStrategy.performQueries();
+        SearchResults searchResults = queryingStrategy.performQueries(indexPath);
         return benchmarkResult;
     }
 }

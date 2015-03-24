@@ -1,6 +1,6 @@
 package searchstrategy;
 
-import article.Article;
+import article.Entry;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.IntField;
@@ -18,10 +18,10 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
 
 public abstract class IndexingStrategy {
-    private Article[] articles;
+    private Entry[] articles;
     private long indexTime;
 
-    public IndexingStrategy(Article[] articles) {
+    public IndexingStrategy(Entry[] articles) {
         this.articles = articles;
     }
 
@@ -40,7 +40,7 @@ public abstract class IndexingStrategy {
      */
     protected abstract void afterWriteHook(IndexWriter writer) throws IOException;
 
-    protected void defineFields(Article article, Document doc) throws UnsupportedEncodingException {
+    protected void defineFields(Entry article, Document doc) throws UnsupportedEncodingException {
         doc.add(new IntField("id", article.getId(), Field.Store.YES));
 
         // Add the contents of the file to a field named "contents".  Specify a Reader,
@@ -115,8 +115,8 @@ public abstract class IndexingStrategy {
         }
     }
 
-    private void indexDocs(IndexWriter writer, Article[] articles) throws IOException {
-        for (Article article : articles) {
+    private void indexDocs(IndexWriter writer, Entry[] articles) throws IOException {
+        for (Entry article : articles) {
             // make a new, empty document
             Document doc = new Document();
 

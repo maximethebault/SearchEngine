@@ -1,14 +1,14 @@
 package article;
 
-public class Article {
+public class Entry {
     private int id;
     private String content;
 
-    public Article(int id) {
+    public Entry(int id) {
         this.id = id;
     }
 
-    public Article(int id, String content) {
+    public Entry(int id, String content) {
         this.id = id;
         this.content = content;
     }

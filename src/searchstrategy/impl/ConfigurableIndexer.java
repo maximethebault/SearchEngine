@@ -1,6 +1,6 @@
 package searchstrategy.impl;
 
-import article.Article;
+import article.Entry;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -14,7 +14,7 @@ public class ConfigurableIndexer extends IndexingStrategy {
     private final TokenFilterConfig[] tokenFilterConfigs;
     private boolean optimizeIndex;
 
-    public ConfigurableIndexer(Article[] articles, String tokenizer, TokenFilterConfig[] tokenFilterConfigs, boolean optimizeIndex) {
+    public ConfigurableIndexer(Entry[] articles, String tokenizer, TokenFilterConfig[] tokenFilterConfigs, boolean optimizeIndex) {
         super(articles);
         this.tokenizer = tokenizer;
         this.tokenFilterConfigs = tokenFilterConfigs;
