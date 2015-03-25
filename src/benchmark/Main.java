@@ -22,7 +22,7 @@ public class Main {
             articles = articleExtractor.getEntries();
         }
         catch (IOException e) {
-            System.out.println("Impossible de parser le fichier d'articles en entrée");
+            System.out.println("Impossible de parser le fichier d'articles en entrÃ©e");
             System.exit(1);
             return;
         }
@@ -33,7 +33,7 @@ public class Main {
             queries = queryExtractor.getEntries();
         }
         catch (IOException e) {
-            System.out.println("Impossible de parser le fichier de requêtes en entrée");
+            System.out.println("Impossible de parser le fichier de requÃªtes en entrÃ©e");
             System.exit(1);
             return;
         }
