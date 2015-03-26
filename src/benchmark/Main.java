@@ -2,7 +2,6 @@ package benchmark;
 
 import article.Entry;
 import article.EntryExtractor;
-import searchstrategy.SearchBenchmark;
 import searchstrategy.TokenFilterConfig;
 import searchstrategy.impl.ConfigurableIndexer;
 import searchstrategy.impl.ConfigurableQuery;

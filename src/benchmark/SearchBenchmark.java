@@ -1,9 +1,7 @@
-package searchstrategy;
+package benchmark;
 
-import benchmark.BenchmarkResult;
-import benchmark.Main;
-import benchmark.QueryBenchmark;
-import benchmark.SearchResults;
+import searchstrategy.IndexingStrategy;
+import searchstrategy.QueryingStrategy;
 
 public class SearchBenchmark {
     private static int INSTANCE_NB = 0;
