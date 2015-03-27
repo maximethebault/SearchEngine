@@ -43,12 +43,12 @@ public class Main {
          * The configuration of the Analyzer is done in 2 steps:
          * 1) Tokenizer
          * We've got to choose a tokenizer, between the 3 following (from the most sophicasted to the most basic one):
-         * - StandardAnalyzer/ClassicAnalyzer uses StandardFilter, LowerCaseFilter and StopFilter (pre-defined filters, see "2) TokenFilter"
-         *  e.g. "Hello World.Fine of?" -> hello, world, fine ("of" gets deleted by the StopWords filter)
-         * - WhitespaceAnalyzer performs basic tokenization on whitespaces
-         *  e.g. "Hello World.Fine of?" -> Hello, World.Fine, of (or something like this, idk how it really works on ponctuation)
-         * - KeywordAnalyzer doesn't tokenize or modify anything
-         *  e.g. "Hello World.Fine of?" -> Hello World.Fine of?
+         * - StandardTokenizer performs tokenization on usual word-separators (whitespaces, -, some poncutation)
+         *  e.g. "Hello Marc-Antoine World.Fine of?" -> Hello, Marc, Antoine, World.Fine, of
+         * - WhitespaceTokenizer performs basic tokenization on whitespaces
+         *  e.g. "Hello Marc-Antoine World.Fine of?" -> Hello, Marc-Antoine, World.Fine, of (or something like this, idk how it really works on ponctuation)
+         * - KeywordTokenizer doesn't tokenize or modify anything
+         *  e.g. "Hello Marc-Antoine World.Fine of?" -> Hello Marc-Antoine World.Fine of?
          *
          * 2) TokenFilter
          * Once we've got the tokens, any transformations (from zero to *) can be applied before they're written into the index:
