@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static int BENCHMARK_ITERATION = 50;
+    public static int BENCHMARK_ITERATION = 1;
 
     public static void main(String[] args) {
         EntryExtractor articleExtractor = new EntryExtractor("resources/cisi/CISI.ALLnettoye");
@@ -85,7 +85,7 @@ public class Main {
                         "Expand query",
                         new ConfigurableIndexer(
                                 articles.toArray(new Entry[articles.size()]),
-                                "whitespace",
+                                "keyword",
                                 new TokenFilterConfig[] {
                                         lowercaseFilterConfig,
                                         stopwordsFilterConfig
@@ -94,25 +94,7 @@ public class Main {
                         ),
                         new ConfigurableQuery(
                                 queries.toArray(new Entry[queries.size()]),
-                                "whitespace",
-                                new TokenFilterConfig[] {
-                                        lowercaseFilterConfig
-                                }
-                        )
-                ),
-                new SearchBenchmark(
-                        "Expand query",
-                        new ConfigurableIndexer(
-                                articles.toArray(new Entry[articles.size()]),
-                                "whitespace",
-                                new TokenFilterConfig[] {
-                                        lowercaseFilterConfig
-                                },
-                                false
-                        ),
-                        new ConfigurableQuery(
-                                queries.toArray(new Entry[queries.size()]),
-                                "whitespace",
+                                "keyword",
                                 new TokenFilterConfig[] {
                                         lowercaseFilterConfig
                                 }

@@ -40,6 +40,10 @@ public abstract class QueryingStrategy {
             for (Entry storedQuery : queries) {
                 Query query = parser.parse(QueryParser.escape(storedQuery.getContent()));
                 TopDocs results = searcher.search(query, null, 100);
+                if (results.totalHits == 0) {
+                    searchResults.noHit(storedQuery.getId());
+                    continue;
+                }
                 for (ScoreDoc hit : results.scoreDocs) {
                     Document document = searcher.doc(hit.doc);
                     searchResults.addHit(storedQuery.getId(), Integer.valueOf(document.get("id")));

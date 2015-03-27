@@ -37,4 +37,10 @@ public class SearchResults {
             results.put(queryId, resultsForQuery);
         }
     }
+
+    public void noHit(int queryId) {
+        if (!results.containsKey(queryId)) {
+            results.put(queryId, new ArrayList<Integer>());
+        }
+    }
 }

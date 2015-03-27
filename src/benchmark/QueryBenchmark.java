@@ -98,14 +98,14 @@ public class QueryBenchmark {
      * @param queryId
      *         ID of the query to get the number of matches for
      *
-     * @return the total number of (actual) matches, or -1 if invalid queryId
+     * @return the total number of (actual) matches
      */
     public int getActualMatchesSize(int queryId) {
         if (!actualSearchResults.getResults().containsKey(queryId)) {
-            return -1;
+            throw new RuntimeException("Unknown query ID in actual results");
         }
         else {
-            return actualSearchResults.getResults().size();
+            return actualSearchResults.getResults().get(queryId).size();
         }
     }
 
@@ -117,35 +117,39 @@ public class QueryBenchmark {
      */
     public int getExpectedMatchesSize(int queryId) {
         if (!expectedSearchResults.getResults().containsKey(queryId)) {
-            return -1;
+            throw new RuntimeException("Unknown query ID in expected results");
         }
         else {
-            return expectedSearchResults.getResults().size();
+            return expectedSearchResults.getResults().get(queryId).size();
         }
     }
 
     public float getPrecision() {
         double accumulatedPrecision = 0;
+        int nbValues = 0;
 
         for (int queryId : expectedSearchResults.getResults().keySet()) {
             double actualMatchesSize = getActualMatchesSize(queryId);
             double badMatches = getBadMacthes(queryId);
-            accumulatedPrecision += (actualMatchesSize - badMatches) / actualMatchesSize;
+            if (actualMatchesSize > 0) {
+                accumulatedPrecision += (actualMatchesSize - badMatches) / actualMatchesSize;
+                nbValues++;
+            }
         }
 
-        return (float) (accumulatedPrecision / (double) expectedSearchResults.getResults().size());
+        return (float) (accumulatedPrecision / (double) nbValues);
     }
 
     public float getRecall() {
-        double accumulatedPrecision = 0;
+        double accumulatedRecall = 0;
 
         for (int queryId : expectedSearchResults.getResults().keySet()) {
             double actualMatchesSize = getActualMatchesSize(queryId);
             double expectedMatchesSize = getExpectedMatchesSize(queryId);
             double badMatches = getBadMacthes(queryId);
-            accumulatedPrecision += (actualMatchesSize - badMatches) / expectedMatchesSize;
+            accumulatedRecall += (actualMatchesSize - badMatches) / expectedMatchesSize;
         }
 
-        return (float) (accumulatedPrecision / (double) expectedSearchResults.getResults().size());
+        return (float) (accumulatedRecall / (double) expectedSearchResults.getResults().size());
     }
 }
