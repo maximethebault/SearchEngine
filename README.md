@@ -1,2 +1,2 @@
 # SearchEngine
-A benchmark tool to test Lucene's optimal configuration against the CISI database
+A benchmark tool used to see how Lucene's configuration influences results against the CISI database
