@@ -7,6 +7,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parse a file from the CISI collection and "deserialize" it into a list of Entry classes
+ * <p/>
+ * CISI.QRY has had some processing, due to a change in format in the middle of the file. The following replace regex was used:
+ * Find: (?s)\.I ([0-9]+)(\s)\.T\s(.*?)\.A(.*?)\.W(.*?)\.B\s\((.*?)\)
+ * Replace with: \.I $1$2\.W$2$3$2$5
+ */
 public class EntryExtractor {
     private String filePath;
 
