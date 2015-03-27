@@ -94,7 +94,7 @@ public class Main {
                         ),
                         new ConfigurableQuery(
                                 queries.toArray(new Entry[queries.size()]),
-                                0.001,
+                                0,
                                 "whitespace",
                                 new TokenFilterConfig[] {
                                         lowercaseFilterConfig,

@@ -23,6 +23,10 @@ public class QueryBenchmark {
         this.actualSearchResults = actualSearchResults;
     }
 
+    void setExpectedSearchResults(SearchResults expectedSearchResults) {
+        this.expectedSearchResults = expectedSearchResults;
+    }
+
     public void fetchExpectedResults(String filePath) {
         expectedSearchResults = new SearchResults();
         try {
