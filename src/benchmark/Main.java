@@ -85,7 +85,7 @@ public class Main {
                         "Expand query",
                         new ConfigurableIndexer(
                                 articles.toArray(new Entry[articles.size()]),
-                                "keyword",
+                                "whitespace",
                                 new TokenFilterConfig[] {
                                         lowercaseFilterConfig,
                                         stopwordsFilterConfig
@@ -94,9 +94,11 @@ public class Main {
                         ),
                         new ConfigurableQuery(
                                 queries.toArray(new Entry[queries.size()]),
-                                "keyword",
+                                0.001,
+                                "whitespace",
                                 new TokenFilterConfig[] {
-                                        lowercaseFilterConfig
+                                        lowercaseFilterConfig,
+                                        stopwordsFilterConfig
                                 }
                         )
                 )

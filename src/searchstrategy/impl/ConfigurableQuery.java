@@ -13,8 +13,8 @@ public class ConfigurableQuery extends QueryingStrategy {
     private final String tokenizer;
     private final TokenFilterConfig[] tokenFilterConfigs;
 
-    public ConfigurableQuery(Entry[] entries, String tokenizer, TokenFilterConfig[] tokenFilterConfigs) {
-        super(entries);
+    public ConfigurableQuery(Entry[] entries, double scoreThreshold, String tokenizer, TokenFilterConfig[] tokenFilterConfigs) {
+        super(entries, scoreThreshold);
         this.tokenizer = tokenizer;
         this.tokenFilterConfigs = tokenFilterConfigs;
     }

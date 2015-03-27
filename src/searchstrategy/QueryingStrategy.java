@@ -19,10 +19,13 @@ import java.util.Date;
 
 public abstract class QueryingStrategy {
     private Entry[] queries;
+    private double scoreThreshold;
+
     private long queryTime;
 
-    public QueryingStrategy(Entry[] queries) {
+    public QueryingStrategy(Entry[] queries, double scoreThreshold) {
         this.queries = queries;
+        this.scoreThreshold = scoreThreshold;
     }
 
     protected abstract QueryParser getQueryParser(IndexSearcher searcher) throws IOException;
@@ -39,14 +42,18 @@ public abstract class QueryingStrategy {
             QueryParser parser = getQueryParser(searcher);
             for (Entry storedQuery : queries) {
                 Query query = parser.parse(QueryParser.escape(storedQuery.getContent()));
-                TopDocs results = searcher.search(query, null, 100);
-                if (results.totalHits == 0) {
-                    searchResults.noHit(storedQuery.getId());
-                    continue;
-                }
+                TopDocs results = searcher.search(query, null, 20000);
+                int nbHit = 0;
                 for (ScoreDoc hit : results.scoreDocs) {
+                    if (hit.score < scoreThreshold) {
+                        break;
+                    }
                     Document document = searcher.doc(hit.doc);
                     searchResults.addHit(storedQuery.getId(), Integer.valueOf(document.get("id")));
+                    nbHit++;
+                }
+                if (nbHit == 0) {
+                    searchResults.noHit(storedQuery.getId());
                 }
             }
 
