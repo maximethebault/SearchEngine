@@ -1,0 +1,35 @@
+Méthodologie de Tests
+
+a) Critères d'indexation
+
+Les recherches réalisées se font avec une collection de documents, ici nommé CISI. Cette collection est constituée des documents suivant : 
+Un document nommé ALLnettoye contenant un ensemble d'articles textuels (ici 1460), qui sont chacun localisés et délimités par un jalon contenant le numéro de l'article suivant.
+Un autre nommé QRY, qui contient un ensemble de requêtes sous forme de questions. Chaque ensemble de requêtes est ici aussi délimité par un jalon le numéro de l'ensemble de requêtes suivant.
+
+Les recherches effectuées dans le cadre de ce projet sont faite de la manière suivante : On cherche, pour chacun des ensembles de requêtes de QRY, les articles de 
+ALLnettoye contenant des éléments de réponse. L'indexation des résultats est réalisée en parcourant, pour chaque ensemble de requête, l'ensemble des articles. 
+Lorsqu'un article est retenu, son identifiant est ajouté à l'index des résultats pour la requête correspondante. Le résultat de la recherche est donc constitué d'un index des articles liés à chaque ensemble de requêtes.
+
+Dans la collection CISI sont également présent deux autres documents : le fichier contenant les StopWords, nommé "motsvides", qui est utilisé lors de la recherche pour ne 
+tenir compte que des mots significatifs, ainsi que le fichier REL, qui contient la liste des résultats attendus lors de l'exécution. REL est constitué d'une liste 
+d'associations "n° requête - n° article", faisant correspondre les requêtes avec leurs résultats. Cette liste a été réalisée par un ensemble d'experts et 
+constitue donc l'objectif vers lequel nous essayons de faire converger nos propres résultats ; elle servira a évaluer par comparaison la qualité des résultats de notre algorithme d'indexation.
+
+b) Critères de Recherche
+
+Une fois la recherche effectuée, la pertinence des résultats est évaluée principalement selon deux critères :
+
+Le premier critère d'évaluation est le Recall, qui est un critère retournant la part des résultats retournés parmi ceux réellement attendus.
+La construction de ce critère se fait de la manière suivante : pour chacune des requêtes, on retient le nombre de résultats obtenus auquel 
+on retire ceux qui n'étaient pas attendus (on a donc le nombre des résultats attendus qui ont été réellement obtenus), et l'on regarde 
+quel part des résultats attendus cela représente (si tous ont été obtenus, on aura donc 100%). On fait ensuite la moyenne de ces parts 
+pour chacune des requêtes, et l'on a ainsi la part des résultats obtenus parmi ceux attendus pour toutes les requêtes, qui constitue le Recall.
+
+Le second critère d'évaluation des résultats est la Précision, qui est un critère évaluant la qualité des résultats obtenus. La Précision est construite de la manière suivante :
+pour chacune des requêtes, on regarde le nombre de résultats attendus réellement obtenus (résultats obtenus - résultats obtenus mais non attendus), et l'on 
+compare cette valeur au nombre de résultats obtenus (à l'inverse du nombre de résultats attendus pour le Recall). On a donc une valeur mesurant, pour chaque requête,
+la part des résultats obtenus attendus sur le nombre de résultats total. On fait alors la moyenne de ces valeurs pour chacune des requêtes, et l'on obtient ainsi la Précision de la recherche.
+
+Ces deux critères, associés à la taille de l'index créé et aux temps nécessaires à l'interrogation des articles avec les requêtes 
+ainsi qu'à la création des indexes, permettent de mesurer la qualité de la recherche, qui se mesure donc au travers des taux de 
+vrais positifs/vrais négatifs/faux positifs/faux négatifs, qui servent à la construction des critères de Recall et de Précision.
