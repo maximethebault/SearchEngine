@@ -1,0 +1,90 @@
+\documentclass[a4paper]{article}
+
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage[left=3cm, right=3cm, bottom=4cm, top=4cm]{geometry}
+\usepackage{array}
+\usepackage{pdfpages}
+
+\usepackage[gen]{eurosym}
+\DeclareUnicodeCharacter{20AC}{\euro{}}
+
+\usepackage{hyperref}
+\hypersetup{    
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+\title{Rapport de projet d'acquisition de Connaissances}
+
+\author
+{
+	Pierre-Marie {\sc Airiau}\\
+    Hyuk-Chan {\sc Kwon}\
+    Maud {\sc Leray}\\
+    Thibaut {\sc Rapin}\\
+    Maxime {\sc Thebault}
+}
+
+\date{\today}
+
+\newcommand{\pagevierge}[0]{\newpage\thispagestyle{empty}\null\newpage}
+
+% Note
+% Organisation pas bien - bien - tres bien
+% Qualite contenu 
+% Qualite mise en page
+% Commentaires
+
+
+\begin{document}
+    % Ouh c'est sale.
+    \hypersetup{pageanchor=false}
+    %\includepdf[pages=1]{figure/couv.pdf}
+    \hypersetup{pageanchor=true}
+    
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+    
+    \newpage
+    % A decommenter pour la release
+    \setcounter{tocdepth}{2}
+    \tableofcontents
+    \setlength{\parskip}{10pt}
+    
+    \newpage
+    \thispagestyle{empty}
+    \mbox{}
+    
+    \newpage
+    \input{input/intro.tex}
+\newpage
+    \input{input/lucene.tex}
+\newpage
+    \input{input/methodo.tex}
+\newpage
+    \input{input/prog_realisee.tex}
+\newpage
+    \input{input/analyse_res.tex}
+    % a eviter
+    % \nocite{*}
+
+    %\bibliographystyle{plain}
+    %\bibliography{input/biblio}
+
+    % Manoucherie incoming
+    \pagevierge
+    \ifthenelse{\isodd{\thepage}}
+    {\pagevierge}
+    {}
+    %\includepdf[pages=2]{figure/couv.pdf}
+\end{document}

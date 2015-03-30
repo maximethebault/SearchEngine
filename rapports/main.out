@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Introduction : \311tude d\220un moteur de recherche existant et \351valuation comparative}{}% 1
+\BOOKMARK [1][-]{section.2}{Lucene}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{G\351n\351ralit\351s}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Fonctionnement g\351n\351ral}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Analyseur}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{M\351thodologie de test}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Pr\351sentation de la collection CISI}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Crit\350res d'indexation}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Crit\350res d\220interrogation}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Programme r\351alis\351}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Extraction des donn\351es textuelles}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{D\351finition et configuration des champs}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.3}{Configuration de l'analyseur}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.4}{\311valuation des r\351sultats}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{Analyse des r\351sultats}{}% 15
+\BOOKMARK [2][-]{subsection.5.1}{Tests sur les Tokenizers}{section.5}% 16
+\BOOKMARK [2][-]{subsection.5.2}{Tests sur les filtres}{section.5}% 17
