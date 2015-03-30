@@ -89,26 +89,31 @@ public class Main {
         paramsSynNotExpanded.put("expand", "false");
         paramsSynNotExpanded.put("format", "wordnet");
         TokenFilterConfig synonymFilterConfigNotExpanded = new TokenFilterConfig("synonym", paramsSynNotExpanded);
+        TokenFilterConfig englishPossessive = new TokenFilterConfig("englishpossessive");
+        TokenFilterConfig snowball = new TokenFilterConfig("snowballporter");
         SearchBenchmark[] searchBenchmarks = new SearchBenchmark[] {
                 new SearchBenchmark(
                         "Custom analyzer",
                         new ConfigurableIndexer(
                                 articles.toArray(new Entry[articles.size()]),
-                                "whitespace",
+                                "lowercase",
                                 new TokenFilterConfig[] {
-                                        lowercaseFilterConfig,
-                                        synonymFilterConfigNotExpanded
+                                        synonymFilterConfigNotExpanded,
+                                        stopwordsFilterConfig,
+                                        englishPossessive,
+                                        snowball
                                 },
                                 false
                         ),
                         new ConfigurableQuery(
                                 queries.toArray(new Entry[queries.size()]),
                                 0,
-                                "whitespace",
+                                "lowercase",
                                 new TokenFilterConfig[] {
-                                        lowercaseFilterConfig,
+                                        synonymFilterConfigNotExpanded,
                                         stopwordsFilterConfig,
-                                        synonymFilterConfigNotExpanded
+                                        englishPossessive,
+                                        snowball
                                 }
                         )
                 )
