@@ -8,6 +8,7 @@ import searchstrategy.QueryingStrategy;
 import searchstrategy.TokenFilterConfig;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ConfigurableQuery extends QueryingStrategy {
     private final String tokenizer;
@@ -24,7 +25,7 @@ public class ConfigurableQuery extends QueryingStrategy {
         CustomAnalyzer.Builder builder = CustomAnalyzer.builder();
         builder.withTokenizer(tokenizer);
         for (TokenFilterConfig tokenFilterConfig : tokenFilterConfigs) {
-            builder.addTokenFilter(tokenFilterConfig.getName(), tokenFilterConfig.getParameters());
+            builder.addTokenFilter(tokenFilterConfig.getName(), new HashMap<String, String>(tokenFilterConfig.getParameters()));
         }
 
 

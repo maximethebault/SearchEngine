@@ -73,22 +73,31 @@ public class Main {
                false
            )
          */
-
         TokenFilterConfig lowercaseFilterConfig = new TokenFilterConfig("lowercase");
         Map<String, String> params = new HashMap<String, String>();
         params.put("ignoreCase", "true");
         params.put("words", "cisi/motsvides.txt");
         params.put("format", "wordset");
         TokenFilterConfig stopwordsFilterConfig = new TokenFilterConfig("stop", params);
+        Map<String, String> paramsSynExpanded = new HashMap<String, String>();
+        paramsSynExpanded.put("synonyms", "prolog/wn_s.pl");
+        paramsSynExpanded.put("expand", "true");
+        paramsSynExpanded.put("format", "wordnet");
+        TokenFilterConfig synonymFilterConfigExpanded = new TokenFilterConfig("synonym", paramsSynExpanded);
+        Map<String, String> paramsSynNotExpanded = new HashMap<String, String>();
+        paramsSynNotExpanded.put("synonyms", "prolog/wn_s.pl");
+        paramsSynNotExpanded.put("expand", "false");
+        paramsSynNotExpanded.put("format", "wordnet");
+        TokenFilterConfig synonymFilterConfigNotExpanded = new TokenFilterConfig("synonym", paramsSynNotExpanded);
         SearchBenchmark[] searchBenchmarks = new SearchBenchmark[] {
                 new SearchBenchmark(
-                        "Expand query",
+                        "Custom analyzer",
                         new ConfigurableIndexer(
                                 articles.toArray(new Entry[articles.size()]),
                                 "whitespace",
                                 new TokenFilterConfig[] {
                                         lowercaseFilterConfig,
-                                        stopwordsFilterConfig
+                                        synonymFilterConfigNotExpanded
                                 },
                                 false
                         ),
@@ -98,7 +107,8 @@ public class Main {
                                 "whitespace",
                                 new TokenFilterConfig[] {
                                         lowercaseFilterConfig,
-                                        stopwordsFilterConfig
+                                        stopwordsFilterConfig,
+                                        synonymFilterConfigNotExpanded
                                 }
                         )
                 )
