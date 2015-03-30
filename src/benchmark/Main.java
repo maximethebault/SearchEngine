@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static int BENCHMARK_ITERATION = 1;
+    public static int BENCHMARK_ITERATION = 25;
 
     public static void main(String[] args) {
         EntryExtractor articleExtractor = new EntryExtractor("resources/cisi/CISI.ALLnettoye");
@@ -74,23 +74,55 @@ public class Main {
            )
          */
         TokenFilterConfig lowercaseFilterConfig = new TokenFilterConfig("lowercase");
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("ignoreCase", "true");
         params.put("words", "cisi/motsvides.txt");
         params.put("format", "wordset");
         TokenFilterConfig stopwordsFilterConfig = new TokenFilterConfig("stop", params);
+
         Map<String, String> paramsSynExpanded = new HashMap<String, String>();
         paramsSynExpanded.put("synonyms", "prolog/wn_s.pl");
         paramsSynExpanded.put("expand", "true");
         paramsSynExpanded.put("format", "wordnet");
         TokenFilterConfig synonymFilterConfigExpanded = new TokenFilterConfig("synonym", paramsSynExpanded);
+
         Map<String, String> paramsSynNotExpanded = new HashMap<String, String>();
         paramsSynNotExpanded.put("synonyms", "prolog/wn_s.pl");
         paramsSynNotExpanded.put("expand", "false");
         paramsSynNotExpanded.put("format", "wordnet");
         TokenFilterConfig synonymFilterConfigNotExpanded = new TokenFilterConfig("synonym", paramsSynNotExpanded);
-        TokenFilterConfig englishPossessive = new TokenFilterConfig("englishpossessive");
-        TokenFilterConfig snowball = new TokenFilterConfig("snowballporter");
+
+        TokenFilterConfig apostropheFilterConfig = new TokenFilterConfig("apostrophe");
+
+        TokenFilterConfig classicFilterConfig = new TokenFilterConfig("classic");
+
+        TokenFilterConfig trimFilterConfig = new TokenFilterConfig("trim");
+
+        Map<String, String> paramsEdgeNgram = new HashMap<String, String>();
+        paramsEdgeNgram.put("minGramSize", "5");
+        paramsEdgeNgram.put("maxGramSize", "15");
+        TokenFilterConfig edgeNGramFilterConfig = new TokenFilterConfig("edgengram", paramsEdgeNgram);
+
+        TokenFilterConfig removeDuplicatesFilterConfig = new TokenFilterConfig("removeduplicates");
+
+        Map<String, String> paramsASCIIFolding = new HashMap<String, String>();
+        paramsASCIIFolding.put("preserveOriginal", "true");
+        TokenFilterConfig ASCIIFoldingFilterConfig = new TokenFilterConfig("ASCIIFolding", paramsASCIIFolding);
+
+        Map<String, String> paramsWordDelimiter = new HashMap<String, String>();
+        paramsWordDelimiter.put("splitOnCaseChange", "1");
+        paramsWordDelimiter.put("splitOnNumerics", "1");
+        paramsWordDelimiter.put("stemEnglishPossessive", "1");
+        paramsWordDelimiter.put("generateWordParts", "1");
+        paramsWordDelimiter.put("generateNumberParts", "1");
+        paramsWordDelimiter.put("preserveOriginal", "1");
+        TokenFilterConfig worddelimiterFilterConfig = new TokenFilterConfig("worddelimiter", paramsWordDelimiter);
+
+        Map<String, String> paramsSnowBallPorter = new HashMap<String, String>();
+        paramsSnowBallPorter.put("language", "English");
+        TokenFilterConfig SnowBallPorterFilterConfig = new TokenFilterConfig("SnowBallPorter", paramsSnowBallPorter);
+
         SearchBenchmark[] searchBenchmarks = new SearchBenchmark[] {
                 new SearchBenchmark(
                         "Custom analyzer",
@@ -98,10 +130,9 @@ public class Main {
                                 articles.toArray(new Entry[articles.size()]),
                                 "lowercase",
                                 new TokenFilterConfig[] {
-                                        synonymFilterConfigNotExpanded,
                                         stopwordsFilterConfig,
-                                        englishPossessive,
-                                        snowball
+                                        synonymFilterConfigExpanded,
+                                        SnowBallPorterFilterConfig
                                 },
                                 false
                         ),
@@ -110,10 +141,8 @@ public class Main {
                                 0,
                                 "lowercase",
                                 new TokenFilterConfig[] {
-                                        synonymFilterConfigNotExpanded,
                                         stopwordsFilterConfig,
-                                        englishPossessive,
-                                        snowball
+                                        SnowBallPorterFilterConfig,
                                 }
                         )
                 )
