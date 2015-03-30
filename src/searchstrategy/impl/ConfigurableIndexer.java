@@ -8,6 +8,7 @@ import searchstrategy.IndexingStrategy;
 import searchstrategy.TokenFilterConfig;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ConfigurableIndexer extends IndexingStrategy {
     private final String tokenizer;
@@ -26,13 +27,8 @@ public class ConfigurableIndexer extends IndexingStrategy {
         CustomAnalyzer.Builder builder = CustomAnalyzer.builder();
         builder.withTokenizer(tokenizer);
         for (TokenFilterConfig tokenFilterConfig : tokenFilterConfigs) {
-            builder.addTokenFilter(tokenFilterConfig.getName(), tokenFilterConfig.getParameters());
+            builder.addTokenFilter(tokenFilterConfig.getName(), new HashMap<String, String>(tokenFilterConfig.getParameters()));
         }
-        /*
-                .addTokenFilter("standard")
-                .addTokenFilter("lowercase")
-                .addTokenFilter("stop", "ignoreCase", "false", "words", "stopwords.txt", "format", "wordset")
-                */
         return new IndexWriterConfig(builder.build());
     }
 
