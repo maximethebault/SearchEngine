@@ -51,7 +51,7 @@ Une illustration synthétisant les concepts évoqués précédemment est disponi
 
  \begin{figure}[h]
             \centering
-            \includegraphics[width=1\textwidth]{figure/fonctionnement.jpg}
+            \includegraphics[width=12cm]{figure/fonctionnement.jpg}
             \caption{Fonctionnement programme}
             \label{fig:fonctionnement_prog}
  \end{figure}
@@ -64,7 +64,7 @@ Pour permettre une recherche efficace, le texte contenu dans les champs d’un d
 
 Lucene met à disposition plusieurs tokenizers prédéfinis, dont le fonctionnement est synthétisé dans le tableau //TODO//. Pour illustrer leurs actions, la troisième colonne donne les différents termes produits pour le texte d’entrée “Voit-on J.M. demain ?”.
  
-            \begin{table}[H]
+            \begin{table}[!htbp]
                 \centering
                 \begin{tabular}{|p{4.5cm}|p{4.5cm}|p{4.5cm}|}
                     \hline
@@ -90,7 +90,7 @@ Lucene met à disposition plusieurs tokenizers prédéfinis, dont le fonctionnem
 
 Après le découpage en termes vient l’étape de filtrage, pendant laquelle chacun des termes va être passé en revue. Ce traitement permettra soit de supprimer, soit de modifier, soit de créer de nouveaux termes. Le tableau //TODO// donne un aperçu des filtres les plus courants, et montre leurs effets sur des exemples :
 
-\begin{table}[H]
+\begin{table}[!htbp]
                 \centering
                 \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
                     \hline
@@ -126,9 +126,9 @@ Il existe bien d’autres filtres, et ceux détaillés dans le tableau ont parfo
 
 Nous avons initialement décrit l’analyse (découpage et filtrage des termes) comme un traitement ayant lieu lors de la phase d’indexation. En réalité, l’analyseur est aussi utilisé lors de la phase d’interrogation et permet de transformer la requête de l’utilisateur pour trouver des correspondances dans l’index. Pour comprendre l’utilité de l’analyseur, nous détaillons des résultats de recherche suivant différentes configurations de l’analyseur dans le tableau //TODO//. L’analyse poussée évoquée dans la première colonne décrit l’utilisation d’un StandardTokenizer avec les filtres suivants : LowerCaseFilter, StopFilter, ISOLatin1AccentFilter et SnowballFilter.
 
-\begin{table}[H]
-                \centering
-                \begin{tabular}{|p{2.3cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|p{2.3cm}|}
+\begin{table}[!htbp]
+    \hspace{-3cm}
+                \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
                     \hline
                     \textbf{Configuration de l’analyseur} & \textbf{Texte en entrée} & \textbf{Texte analysé} & \textbf{Correspondance} & \textbf{Requête analysée} & \textbf{Requête en entrée}\\
                     \hline                    
