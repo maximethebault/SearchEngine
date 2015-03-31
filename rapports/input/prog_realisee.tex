@@ -50,8 +50,9 @@ Encore une fois, la symétrie entre l’indexation et l’interrogation est marq
 On a donc configuré les parties “Traitement des documents” et “Traitement des requêtes” grâce aux classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}. Nous avons toutes les clés en main pour créer et interroger l’index avec n’importe quelle configuration d’analyseur. Il nous reste maintenant à prélever du processus les critères définis à la partie //TODO//.
 
 \subsection{Évaluation des résultats}
+\label{section:benchmarkresults}
 
-Pour stocker le résultat des évaluations, on crée une classe \texttt{BenchmarkResult} qui va contenir nos 5 critères : la taille de l’index, le temps d’indexation, le temps d’interrogation, la précision et le rappel.
+Pour stocker le résultat des évaluations, on crée une classe \texttt{BenchmarkResult} qui va contenir nos cinq critères : le temps d’indexation, la taille de l’index, le temps d’interrogation, le rappel et la précision.
 
 
 Les temps d’indexation et d’interrogation sont de simples différences de temps, calculées dans les classes \texttt{IndexingStrategy} et \texttt{QueryingStrategy}. Mais pour assurer des résultats corrects, il faut répéter le processus d’indexation/d’interrogation à plusieurs reprises afin de calculer un temps moyen sur le nombre total d’itérations : c’est le rôle de la classe \texttt{SearchBenchmark}.

@@ -6,25 +6,26 @@
 \contentsline {subsubsection}{\numberline {2.2.1}Indexation}{6}{subsubsection.2.2.1}
 \contentsline {subsubsection}{\numberline {2.2.2}Interrogation}{6}{subsubsection.2.2.2}
 \contentsline {subsubsection}{\numberline {2.2.3}Synth\IeC {\`e}se}{7}{subsubsection.2.2.3}
-\contentsline {subsection}{\numberline {2.3}Analyseur}{7}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}Le d\IeC {\'e}coupage en termes}{7}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Le filtrage des termes}{7}{subsubsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.3}Utilit\IeC {\'e} de l'analyseur}{7}{subsubsection.2.3.3}
-\contentsline {section}{\numberline {3}M\IeC {\'e}thodologie de test}{9}{section.3}
-\contentsline {subsection}{\numberline {3.1}Pr\IeC {\'e}sentation de la collection CISI}{9}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Crit\IeC {\`e}res d'indexation}{9}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Crit\IeC {\`e}res d\IeC {\textquoteright }interrogation}{10}{subsection.3.3}
-\contentsline {section}{\numberline {4}Programme r\IeC {\'e}alis\IeC {\'e}}{11}{section.4}
-\contentsline {subsection}{\numberline {4.1}Extraction des donn\IeC {\'e}es textuelles}{11}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}D\IeC {\'e}finition et configuration des champs}{11}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Configuration de l'analyseur}{12}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}\IeC {\'E}valuation des r\IeC {\'e}sultats}{12}{subsection.4.4}
-\contentsline {section}{\numberline {5}Analyse des r\IeC {\'e}sultats}{14}{section.5}
-\contentsline {subsection}{\numberline {5.1}Tests sur les Tokenizers}{14}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Tests sur les filtres}{14}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}LowerCaseFilter, ApostropheFilter, ClassicFilter}{15}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}StopFilter}{15}{subsubsection.5.2.2}
-\contentsline {subsubsection}{\numberline {5.2.3}EdgeNGramFilter}{15}{subsubsection.5.2.3}
-\contentsline {subsubsection}{\numberline {5.2.4}ASCIIFolding}{16}{subsubsection.5.2.4}
-\contentsline {subsubsection}{\numberline {5.2.5}WordDelimiter}{16}{subsubsection.5.2.5}
-\contentsline {subsubsection}{\numberline {5.2.6}Synonym}{16}{subsubsection.5.2.6}
+\contentsline {subsection}{\numberline {2.3}Analyseur}{8}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Le d\IeC {\'e}coupage en termes}{8}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Le filtrage des termes}{8}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Utilit\IeC {\'e} de l'analyseur}{10}{subsubsection.2.3.3}
+\contentsline {section}{\numberline {3}M\IeC {\'e}thodologie de test}{11}{section.3}
+\contentsline {subsection}{\numberline {3.1}Pr\IeC {\'e}sentation de la collection CISI}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Crit\IeC {\`e}res d'indexation}{11}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Crit\IeC {\`e}res d\IeC {\textquoteright }interrogation}{12}{subsection.3.3}
+\contentsline {section}{\numberline {4}Programme r\IeC {\'e}alis\IeC {\'e}}{13}{section.4}
+\contentsline {subsection}{\numberline {4.1}Extraction des donn\IeC {\'e}es textuelles}{13}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}D\IeC {\'e}finition et configuration des champs}{13}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Configuration de l'analyseur}{14}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}\IeC {\'E}valuation des r\IeC {\'e}sultats}{14}{subsection.4.4}
+\contentsline {section}{\numberline {5}Analyse des r\IeC {\'e}sultats}{16}{section.5}
+\contentsline {subsection}{\numberline {5.1}Tests sur les Tokenizers}{16}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Tests sur les filtres}{17}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}LowerCaseFilter, ApostropheFilter, ClassicFilter}{17}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}StopFilter}{17}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}EdgeNGramFilter}{18}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.4}ASCIIFoldingFilter}{19}{subsubsection.5.2.4}
+\contentsline {subsubsection}{\numberline {5.2.5}WordDelimiterFilter}{19}{subsubsection.5.2.5}
+\contentsline {subsubsection}{\numberline {5.2.6}SynonymFilter}{19}{subsubsection.5.2.6}
+\contentsline {subsubsection}{\numberline {5.2.7}SnowBallFilter}{19}{subsubsection.5.2.7}

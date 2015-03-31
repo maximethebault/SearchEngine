@@ -131,7 +131,6 @@ public class Main {
                                 "lowercase",
                                 new TokenFilterConfig[] {
                                         stopwordsFilterConfig,
-                                        synonymFilterConfigExpanded,
                                         SnowBallPorterFilterConfig
                                 },
                                 false
