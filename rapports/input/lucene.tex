@@ -61,6 +61,7 @@ Une illustration synthétisant les concepts évoqués précédemment est disponi
 Pour permettre une recherche efficace, le texte contenu dans les champs d’un document est transformé en une succession de termes. Cette étape est fondamentale pour assurer la pertinence des résultats : cela permettra par exemple de trouver une correspondance entre un verbe conjugué dans un document et un verbe à l’infinitif dans la requête d’un utilisateur. Il s’agira dans un premier temps de pouvoir distinguer les différents termes de la phrase, grâce au découpage en termes (tokenization en anglais). C’est sur ces termes qu’on appliquera des transformations, grâce au filtrage.
 
 \subsubsection{Le découpage en termes}
+\label{section:tokenizer}
 
 Lucene met à disposition plusieurs tokenizers prédéfinis, dont le fonctionnement est synthétisé dans le tableau //TODO//. Pour illustrer leurs actions, la troisième colonne donne les différents termes produits pour le texte d’entrée “Voit-on J.M. demain ?”.
  
@@ -87,6 +88,7 @@ Lucene met à disposition plusieurs tokenizers prédéfinis, dont le fonctionnem
             \end{table}
 
 \subsubsection{Le filtrage des termes}
+\label{section:filtres}
 
 Après le découpage en termes vient l’étape de filtrage, pendant laquelle chacun des termes va être passé en revue. Ce traitement permettra soit de supprimer, soit de modifier, soit de créer de nouveaux termes. Le tableau //TODO// donne un aperçu des filtres les plus courants, et montre leurs effets sur des exemples :
 

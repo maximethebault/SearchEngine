@@ -1,19 +1,19 @@
 \section{Analyse des résultats}
 
-Dans cette dernière partie, nous commencerons par tester les différents \texttt{Tokenizers} de Lucene, puis les paramètres possibles d’indexation et d’interrogation. Nous rappelons que ces paramètres sont respectivement définis dans les classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}, et que le résultat obtenu est sous forme de \texttt{BenchmarkResult} contenant 5 critères décrits précédemment dans la section //TODO//.
+Dans cette dernière partie, nous commencerons par tester les différents \texttt{Tokenizers} de Lucene, puis les paramètres possibles d’indexation et d’interrogation. Nous rappelons que ces paramètres sont respectivement définis dans les classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}, et que le résultat obtenu est sous forme de \texttt{BenchmarkResult} contenant cinq critères décrits précédemment dans la section \ref{section:benchmarkresults}.
 
-Les résultats des tests seront présentés sous forme de tableaux qui respecteront les indications suivantes : //TODO//
+Les résultats des tests seront présentés sous forme de tableaux qui respecteront les indications suivantes :
 \begin{itemize}
     \item la colonne \texttt{Indexer} représente l’indexation et la colonne \texttt{Query} l’interrogation ;
     \item les cinq colonnes suivantes contiennent les cinq critères du résultat : le temps d’indexation (\texttt{indexingTime}), la taille de l’index (\texttt{indexSize}), le temps d’interrogation (\texttt{queryTime}), le rappel (\texttt{queryRecall}) et la précision (\texttt{queryPrecision}) ;
-    \item les filtres respectifs des deux premières colonnes ont été indiqués par leur nom seul (par exemple, “StopFilter” est écrit “Stop”) ;
+    \item les filtres respectifs des deux premières colonnes ont été indiqués par leur nom seul (par exemple, \texttt{StopFilter} est écrit \texttt{Stop}) ;
     \item de la même façon, les \texttt{Tokenizers} sont marqués par leur nom seul ;
     \item l’indication \texttt{None} indique qu’aucun des filtres n’est appliqué.
 \end{itemize}
 
 \subsection{Tests sur les Tokenizers}
 
-Il est à noter que pour ces tests, aucun \texttt{Filter} n’était appliqué ni pour l’indexation ni pour l’interrogation. Nous rappelons également que la liste des \texttt{Tokenizers} et de leurs descriptions respectives est fournie dans la section //TODO//.
+Il est à noter que pour ces tests, aucun \texttt{Filter} n’était appliqué ni pour l’indexation ni pour l’interrogation. Nous rappelons également que la liste des \texttt{Tokenizers} et de leurs descriptions respectives est fournie dans la section \ref{section:tokenizer}.
 
 \begin{table}[!htbp]
     \hspace{-1.5cm}
@@ -38,7 +38,7 @@ Standard & 196.04 & 527203.0 & 267.04 & 0.986997 & 0.029189767\\
 
 Remarque : “NaN” signifie que le résultat est aberrant, la ligne \texttt{Keyword} n’est donc pas prise en compte.
 
-On observe pour le \texttt{LowerCaseTokenizer} des valeurs nettement meilleures que les autres pour le temps d’indexation, la taille de l’index ainsi que pour le rappel. De plus, l'utilisation d'un \texttt{LowerCaseTokenizer} se justifie par le fait que la plupart des filtres ont besoin d'un texte en minuscule pour pouvoir fonctionner (exemple de stopwords, qui ne détecte pas les mots si différence de casse). C’est donc ce \texttt{Tokenizer} que nous utiliserons lors des tests sur les filtres de la section //TODO//.
+On observe dans le tableau \ref{tab:tests_tokenizers} pour le \texttt{LowerCaseTokenizer} des valeurs nettement meilleures que les autres pour le temps d’indexation, la taille de l’index ainsi que pour le rappel. De plus, l'utilisation d'un \texttt{LowerCaseTokenizer} se justifie par le fait que la plupart des filtres ont besoin d'un texte en minuscule pour pouvoir fonctionner (exemple de stopwords, qui ne détecte pas les mots si différence de casse). C’est donc ce \texttt{Tokenizer} que nous utiliserons lors des tests sur les filtres de la section \ref{section:filtrestest}.
 
 Avant de commencer, nous avons une remarque intéressante concernant le tableau \ref{tab:tests_tokenizers_2}. Nous avons en effet observé lors de nos tests que le \texttt{LowerCaseTokenizer} sans filtre était équivalent au \texttt{LetterTokenizer} filtré par le \texttt{LowerCaseFilter}, malgré quelques différences de temps d’indexation et d’interrogation. Pour plus de simplicité, nous allons tout de même travailler en nous basant sur le \texttt{LowerCaseTokenizer}.
 
@@ -58,8 +58,9 @@ Letter & LowerCase & LowerCase & 200.0 & 477504.0 & 269.0 & 0.9892572 & 0.029175
             \end{table}
 
 \subsection{Tests sur les filtres}
+\label{section:filtrestest}
 
-Nous allons maintenant présenter les résultats des tests sur l’influence des différents paramètres d’indexation et d’interrogation. Pour les comparaisons, nous nous baserons sur le tableau de référence (tableau \ref{tab:referenceslower}) qui présente les résultats obtenus avec le \texttt{LowerCaseTokenizer} sans aucun filtre appliqué ni sur l’indexation, ni sur l’interrogation.
+Nous allons maintenant présenter les résultats des tests sur l’influence des différents paramètres d’indexation et d’interrogation. Pour les comparaisons, nous nous baserons sur le tableau de référence (tableau \ref{tab:references}) qui présente les résultats obtenus avec le \texttt{LowerCaseTokenizer} sans aucun filtre appliqué ni sur l’indexation, ni sur l’interrogation.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
@@ -75,6 +76,7 @@ None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
             \end{table}
 
 \subsubsection{LowerCaseFilter, ApostropheFilter, ClassicFilter}
+\label{section:filtrespourris}
 
 Ces trois filtres ont été regroupés dans une même section car au fur et à mesure des tests, nous avons réalisé que les résultats obtenus étaient très similaires. Ceux du test avec le \texttt{LowerCaseFilter} sont par exemple indiqués dans le tableau \ref{tab:tests_LowerCaseFilter}.
 
@@ -95,7 +97,7 @@ LowerCase & LowerCase & 209.08 & 477504.0 & 273.72 & 0.9892572 & 0.029175652\\
                 \label{tab:tests_LowerCaseFilter}
             \end{table}
 
-On constate que les valeurs sont les mêmes que pour le tableau de référence \ref{tab:references}. Cela peut être expliqué par le fait que les opérations effectuées par ces trois filtres (détaillées dans la section //TODO//) sont déjà prises en compte par le \texttt{LowerCaseTokenizer} utilisé lors des tests. C’est évident dans le cas du \texttt{LowerCaseFilter}. De plus, le \texttt{LowerCaseTokenizer} supprime déjà les apostrophes, rendant le \texttt{ApostropheFilter} superflu. Enfin, le \texttt{ClassicFilter} applique des séparations déjà réalisées par le \texttt{LowerCaseTokenizer}. On observe tout de même que les temps d’indexation et d’interrogation augmentent généralement  avec l’application d’un \texttt{Filter}. Ceci est compréhensible car Lucene essaye tout de même d’appliquer le \texttt{Filter} malgré son inutilité et perd donc un peu de temps.
+On constate que les valeurs sont les mêmes que pour le tableau de référence \ref{tab:references}. Cela peut être expliqué par le fait que les opérations effectuées par ces trois filtres (détaillées dans la section \ref{section:filtres}) sont déjà prises en compte par le \texttt{LowerCaseTokenizer} utilisé lors des tests. C’est évident dans le cas du \texttt{LowerCaseFilter}. De plus, le \texttt{LowerCaseTokenizer} supprime déjà les apostrophes, rendant le \texttt{ApostropheFilter} superflu. Enfin, le \texttt{ClassicFilter} applique des séparations déjà réalisées par le \texttt{LowerCaseTokenizer}. On observe tout de même que les temps d’indexation et d’interrogation augmentent généralement  avec l’application d’un \texttt{Filter}. Ceci est compréhensible car Lucene essaye tout de même d’appliquer le \texttt{Filter} malgré son inutilité et perd donc un peu de temps.
 
 \subsubsection{StopFilter}
 
@@ -124,7 +126,7 @@ Cependant, on note que le \texttt{queryRecall} a diminué par rapport a la table
 
 \subsubsection{EdgeNGramFilter}
 
-Ce \texttt{Filter} est brièvement décrit dans la section //TODO//, mais quelques précisions sont à apporter afin de bien comprendre les tests. En effet, le \texttt{EdgeNGramFilter} dispose de deux paramètres entiers : \texttt{minGramSize} et \texttt{maxGramSize}. Le premier représente la taille minimale des sous-préfixes retournés (sa valeur a été modifiée lors des tests) et le second représente leur taille maximale (sa valeur est restée à sa valeur par défaut, 15, lors des tests). Les résultats du tableau \ref{tab:tests_EdgeNGramFilter1} sont ceux obtenus avec \texttt{minGramSize} = 1.
+Ce \texttt{Filter} est brièvement décrit dans la section \ref{section:filtres}, mais quelques précisions sont à apporter afin de bien comprendre les tests. En effet, le \texttt{EdgeNGramFilter} dispose de deux paramètres entiers : \texttt{minGramSize} et \texttt{maxGramSize}. Le premier représente la taille minimale des sous-préfixes retournés (sa valeur a été modifiée lors des tests) et le second représente leur taille maximale (sa valeur est restée à sa valeur par défaut, 15, lors des tests). Les résultats du tableau \ref{tab:tests_EdgeNGramFilter1} sont ceux obtenus avec \texttt{minGramSize} = 1.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
@@ -183,7 +185,7 @@ ASCIIFolding & ASCIIFolding & 195.2 & 477504.0 & 274.0 & 0.9892572 & 0.029175652
                 \label{tab:tests_ASCIIFoldingFilter}
             \end{table}
 
-Avec le tableau \ref{tab:tests_ASCIIFoldingFilter} dans lequel on a testé \textt{ASCIIFoldingFilter}, on constate peu d’écarts avec le tableau de référence \ref{tab:references}. Ceci est normal puisque le texte analysé est en anglais et comporte donc peu (voire pas) d’accents. Cependant, comme pour les filtres de la section //TODO//, on observe une légère augmentation des temps d’indexation et d’interrogation due au temps perdu par Lucene à tenter d’appliquer le \texttt{ASCIIFoldingFilter}.
+Avec le tableau \ref{tab:tests_ASCIIFoldingFilter} dans lequel on a testé \textt{ASCIIFoldingFilter}, on constate peu d’écarts avec le tableau de référence \ref{tab:references}. Ceci est normal puisque le texte analysé est en anglais et comporte donc peu (voire pas) d’accents. Cependant, comme pour les filtres de la section \label{section:filtrespourris}, on observe une légère augmentation des temps d’indexation et d’interrogation due au temps perdu par Lucene à tenter d’appliquer le \texttt{ASCIIFoldingFilter}.
 
 \subsubsection{WordDelimiterFilter}
 
@@ -200,17 +202,18 @@ None & WordDelimiter & 193.84 & 477504.0 & 275.08 & 0.9892572 & 0.029175652\\
 WordDelimiter & WordDelimiter & 199.64 & 477504.0 & 273.96 & 0.9892572 & 0.029175652\\
                     \hline
                 \end{tabular}
-                \caption{Tests Filtres 6}
-                \label{tab:tests_filtres_6}
+                \caption{Tests WordDelimiterFilter}
+                \label{tab:tests_WordDelimiterFilter}
             \end{table}
 
-Ce \texttt{Filter} s’occupe de supprimer les tirets et autres caractères non alpahnumériques, ce qui est déjà réalisé par le \texttt{LowerCaseTokenizer}. Cependant, il dispose aussi d’un certain nombre de paramètres qui permettent par exemple de séparer les mots en fonction de la casse, ce qui ne justifie rien du tout vu qu’on a utilisé le \texttt{LowerCaseTokenizer}. Du coup il sert à rien, et Lucene perd son temps (et le nôtre aussi).
+Ce \texttt{Filter} dont les résultats sont affichés tableau \ref{tab:tests_WordDelimiterFilter} s’occupe de supprimer les tirets et autres caractères non alpahnumériques, ce qui est déjà réalisé par le \texttt{LowerCaseTokenizer}. Cependant, il dispose aussi d’autres fonctionnalités qui permettent par exemple de séparer les mots en fonction de la casse. Malheureusement très peu de mot en \textit{CamelCase} se retrouve dans la base de données, on observe donc pas de changement significatif.
 
 \subsubsection{SynonymFilter}
 
-On applique maintenant le \texttt{SynonymFilter} avec le \texttt{LowerCaseTokenizer} (tableau //TODO//). On remarque une grosse différence de temps qui est due à la base de donnée de synonyme très grande. On pourrait diminuer ce temps en choisissant par exemple une base de donnée plus petite mais aussi plus centrée sur nos données pour ne pas perdre en précision.
+On applique maintenant le \texttt{SynonymFilter} avec le \texttt{LowerCaseTokenizer}. Les résultats du tableau \ref{tab:tests_SynonymFilterexpandfalse} sont obtenu avec le paramètre \texttt{expand} à \texttt{false} tandis que le tableau \ref{tab:tests_SynonymFilterexpandtrue} est obtenu avec ce paramètre à \texttt{true}
+On remarque une grosse différence de temps qui est due à la base de donnée de synonyme très grande. On pourrait diminuer ce temps en choisissant par exemple une base de données plus petite mais aussi plus centrée sur nos données pour ne pas perdre en précision.
+Bien que les temps soit très élevés, ils permettent d’obtenir de meilleurs résultats pour le \texttt{queryRecall} tout en perdant un minimum de \texttt{queryPrecision}.
 
-Bien que les temps soit très élevés, il permet d’obtenir de meilleur résultat pour le \texttt{queryRecall} tout en perdant un minimum de \texttt{queryPrecision}.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
@@ -219,12 +222,53 @@ Bien que les temps soit très élevés, il permet d’obtenir de meilleur résul
                     \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
                     \hline
 Synonym & None & 1045.44 & 815344.0 & 283.56 & 0.9885024 & 0.029133203\\
-		\hline
+		            \hline
 None & Synonym & 206.08 & 477504.0 & 932.76 & 0.99006337 & 0.028867353\\
-		\hline
-WordDelimiter & Synonym & 1055.92 & 815344.0 & 1003.2 & 0.9912973 & 0.028918015\\
+		            \hline
+Synonym & Synonym & 1055.92 & 815344.0 & 1003.2 & 0.9912973 & 0.028918015\\
                     \hline
                 \end{tabular}
-                \caption{Tests Filtres 7}
-                \label{tab:tests_filtres_7}
+                \caption{Tests SynonymFilter, expand = false}
+                \label{tab:tests_SynonymFilterexpandfalse}
             \end{table}
+
+\begin{table}[!htbp]
+    \hspace{-2cm}
+                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                    \hline
+                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \hline
+Synonym & None & 1418.4 & 2060410.0 & 294.2 & 0.9920426 & 0.028849905\\
+        \hline
+None & Synonym & 221.32 & 477504.0 & 1298.12 & 0.99517155 & 0.02886647\\
+        \hline
+Synonym & Synonym & 1448.72 & 2060410.0 & 1515.96 & 0.99823326 & 0.02887677\\
+                    \hline
+                \end{tabular}
+                \caption{Tests SynonymFilter, expand = true}
+                \label{tab:tests_SynonymFilterexpandtrue}
+            \end{table}
+
+\subsubsection{SnowBallFilter}
+
+En utilisant cette fois le \texttt{snowballFilter} (tableau \ref{tab:tests_SnowBallFilter}), on obtient de très bons résultats en \texttt{QueryRecall} pour un minimum de temps supplémentaire, et très peu de perte de précision.
+
+\begin{table}[!htbp]
+    \hspace{-2cm}
+                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                    \hline
+                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \hline
+SnowBall & None & 281.64 & 408772.0 & 263.52 & 0.96616405 & 0.026495365\\
+		            \hline
+None & SnowBall & 207.6 & 477504.0 & 311.8 & 0.98476607 & 0.030634077\\
+		            \hline
+SnowBall & SnowBall & 262.72 & 408772.0 & 280.84 & 0.99325633 & 0.029159708\\
+                    \hline
+                \end{tabular}
+                \caption{Tests SnowBallFilter}
+                \label{tab:tests_SnowBallFilter}
+            \end{table}
+
+% stop + snowball :
+% BenchmarkResult{benchmarkName=Custom analyzer, indexingTime=248.44, indexSize=279663.0, queryTime=185.92, queryRecall=0.9601221, queryPrecision=0.03540162}

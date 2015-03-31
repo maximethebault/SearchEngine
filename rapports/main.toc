@@ -28,3 +28,4 @@
 \contentsline {subsubsection}{\numberline {5.2.4}ASCIIFoldingFilter}{19}{subsubsection.5.2.4}
 \contentsline {subsubsection}{\numberline {5.2.5}WordDelimiterFilter}{19}{subsubsection.5.2.5}
 \contentsline {subsubsection}{\numberline {5.2.6}SynonymFilter}{19}{subsubsection.5.2.6}
+\contentsline {subsubsection}{\numberline {5.2.7}SnowBallFilter}{19}{subsubsection.5.2.7}
