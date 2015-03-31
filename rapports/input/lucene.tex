@@ -131,11 +131,11 @@ Nous avons initialement décrit l’analyse (découpage et filtrage des termes) 
                     \hline
                     \textbf{Configuration de l’analyseur} & \textbf{Texte en entrée} & \textbf{Texte analysé} & \textbf{Correspondance} & \textbf{Requête analysée} & \textbf{Requête en entrée}\\
                     \hline                    
-Analyse minimale en indexation et en interrogation (seulement un découpage en termes) & Je pense que nous disposons d’assez de preuves pour dire que Lucene est plutôt utile ! & Je, pense, que, nous, disposons, d’assez, de, preuves, pour, dire, que, Lucene, est, plutôt, utile & ❌ & preuve, utilité, lucene & preuve utilité lucene\\
+Analyse minimale en indexation et en interrogation (seulement un découpage en termes) & Je pense que nous disposons d’assez de preuves pour dire que Lucene est plutôt utile ! & Je, pense, que, nous, disposons, d’assez, de, preuves, pour, dire, que, Lucene, est, plutôt, utile & \xmark{} & preuve, utilité, lucene & preuve utilité lucene\\
 		\hline
-Analyse poussée seulement en indexation & Je pense que nous disposons d’assez de preuves pour dire que Lucene est plutôt utile ! & je, pens, nous, dispos, assez, preuv, dir, lucene, util & ✓ lucene & preuve, utilité, lucene & preuve utilité lucene\\
+Analyse poussée seulement en indexation & Je pense que nous disposons d’assez de preuves pour dire que Lucene est plutôt utile ! & je, pens, nous, dispos, assez, preuv, dir, lucene, util & \begin{tabular}[c]{@{}c@{}}\cmark{}\\lucene\end{tabular} & preuve, utilité, lucene & preuve utilité lucene\\
 		\hline
-Analyse poussée en indexation et en interrogation & Je pense que nous disposons d’assez de preuves pour dire que Lucene est plutôt utile ! & je, pens, nous, dispos, assez, preuv, dir, lucene, util & ✓ preuv lucene util & preuv, util, lucene & preuve utilité lucene\\
+Analyse poussée en indexation et en interrogation & Je pense que nous disposons d’assez de preuves pour dire que Lucene est plutôt utile ! & je, pens, nous, dispos, assez, preuv, dir, lucene, util & \begin{tabular}[c]{@{}c@{}}\cmark{}\\preuv lucene util\end{tabular} & preuv, util, lucene & preuve utilité lucene\\
                     \hline
 
                 \end{tabular}
