@@ -6,6 +6,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{tikz}
+\usepackage{adjustbox}
 \usepackage{lmodern}
 \usepackage[left=3cm, right=3cm, bottom=4cm, top=4cm]{geometry}
 \usepackage{array}
@@ -15,12 +16,12 @@
 \DeclareUnicodeCharacter{20AC}{\euro{}}
 
 \usepackage{hyperref}
-\hypersetup{    
+\usepackage{xcolor}
+\hypersetup{
     colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
+    linkcolor={blue!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
 }
 
 
@@ -39,11 +40,15 @@
 
 \newcommand{\pagevierge}[0]{\newpage\thispagestyle{empty}\null\newpage}
 
-% Note
-% Organisation pas bien - bien - tres bien
-% Qualite contenu 
-% Qualite mise en page
-% Commentaires
+\newcommand{\annexe}[1]{%
+	\clearpage
+	\newpage
+    \vspace*{-4cm}
+	\refstepcounter{section}%
+	\phantomsection%
+	%\addcontentsline{toc}{section}{\appendixname~{\thesection}: #1}%
+	\section*{\appendixname~{\thesection}: #1}
+    }
 
 
 \begin{document}
@@ -84,16 +89,21 @@
     \input{input/prog_realisee.tex}
 \newpage
     \input{input/analyse_res.tex}
-    % a eviter
-    % \nocite{*}
 
-    %\bibliographystyle{plain}
-    %\bibliography{input/biblio}
+\annexe{Fonctionnement programme}
+  \label{annexe:fonctionnement_prog}
+      \begin{figure}[ht]
+            \begin{adjustbox}{margin=0em 0em 0em 0em, addcode={\vspace*{-4cm}}{\vspace*{-4cm}}}
+                \noindent\makebox[\textwidth]{\includegraphics[width=17cm]{figure/fonctionnement.jpg}}
+            \end{adjustbox}
+      \end{figure}
+
+
 
     % Manoucherie incoming
-    \pagevierge
-    \ifthenelse{\isodd{\thepage}}
-    {\pagevierge}
-    {}
+    %\pagevierge
+    %\ifthenelse{\isodd{\thepage}}
+    %{\pagevierge}
+    %{}
     %\includepdf[pages=2]{figure/couv.pdf}
 \end{document}
