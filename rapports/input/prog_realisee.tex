@@ -2,7 +2,7 @@
 
 Cette partie est la plus technique du rapport. Elle n’est pas nécessaire à la compréhension de l’étude, mais donne simplement des détails sur le programme conçu et utilisé pour évaluer les performances de \textbf{Lucene}.
 
-Pour décrire le programme, nous allons nous appuyer sur le schéma donné en annexe //TODO//, qui décrit une utilisation générique de \textbf{Lucene}. Cela décrit donc la structure générale de notre programme. Nous allons lier chacune des tâches répertoriées dans le cadre “Programme utilisant \textbf{Lucene}” du schéma à une partie de notre programme.
+Pour décrire le programme, nous allons nous appuyer sur le schéma donné en annexe \ref{annexe:fonctionnement_prog}, qui décrit une utilisation générique de \textbf{Lucene}. Cela décrit donc la structure générale de notre programme. Nous allons lier chacune des tâches répertoriées dans le cadre “Programme utilisant \textbf{Lucene}” du schéma à une partie de notre programme.
 
 \subsection{Extraction des données textuelles}
 
@@ -25,7 +25,7 @@ Comme nous avons pu le voir dans la section \ref{section:fonctionnementGeneral} 
  \end{figure}
 
 On remarque que chaque article possède un identifiant et du contenu (nous avons décidé de fusionner le titre et le corps de l’article étant donné qu’il n’y a aucune utilité à les maintenir séparés). Un article est ainsi représenté par la classe \texttt{Entry}. La classe chargée d’analyser le fichier d’entrée pour en créer les \texttt{Entry} correspondants est \texttt{EntryExtractor}.
-L’extraction des données textuelles est ainsi terminée. Nous allons maintenant étudier les parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe //TODO//.
+L’extraction des données textuelles est ainsi terminée. Nous allons maintenant étudier les parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe \ref{annexe:fonctionnement_prog}.
 
 \subsection{Définition et configuration des champs}
 
@@ -42,7 +42,7 @@ La configuration de l’index et sa création sont assurées par la classe abstr
 
 Il existe une symétrie assez marquée entre l’indexation et l’interrogation : pour cette dernière phase, il faut une fois de plus aller chercher les requêtes prédéfinies de la collection \textbf{CISI} dans un fichier au format similaire à celui des articles. On utilise donc là encore les classes \texttt{Entry} et \texttt{EntryExtractor}, avant d’aller interroger \textbf{Lucene} grâce à la classe abstraite \texttt{QueryingStrategy}. Comme pour l’indexation, il faudra créer des sous-classes pour implémenter l’interrogation : on permet ainsi la prise en compte de modélisations différentes du \texttt{Document} et de ses \texttt{Field}.
 
-Les classes \texttt{IndexingStrategy} et \texttt{QueryingStrategy}, complétées par leurs sous-classes, répondent donc aux parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe //TODO//. Nous allons maintenant voir que ces sous-classes ont un autre rôle : elles vont influer sur les parties “Traitement des documents” et “Traitement des requêtes”, qui, bien que gérées par \textbf{Lucene}, peuvent être configurées directement depuis notre programme.
+Les classes \texttt{IndexingStrategy} et \texttt{QueryingStrategy}, complétées par leurs sous-classes, répondent donc aux parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe \ref{annexe:fonctionnement_prog}. Nous allons maintenant voir que ces sous-classes ont un autre rôle : elles vont influer sur les parties “Traitement des documents” et “Traitement des requêtes”, qui, bien que gérées par \textbf{Lucene}, peuvent être configurées directement depuis notre programme.
 
 \subsection{Configuration de l'analyseur}
 
