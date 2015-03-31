@@ -1,27 +1,27 @@
 \section{Analyse des résultats}
 
-Dans cette dernière partie, nous commencerons par tester les différents \texttt{Tokenizers} de Lucene, puis les paramètres possibles d’indexation et d’interrogation. Nous rappelons que ces paramètres sont respectivement définis dans les classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}, et que le résultat obtenu est sous forme de \texttt{BenchmarkResult} contenant cinq critères décrits précédemment dans la section \ref{section:benchmarkresults}.
+Dans cette dernière partie, nous commencerons par tester les différents \textit{tokenizers} de Lucene, puis les paramètres possibles d’indexation et d’interrogation. Nous rappelons que ces paramètres sont respectivement définis dans les classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}, et que le résultat obtenu est sous forme de \texttt{BenchmarkResult} contenant cinq critères décrits précédemment dans la section \ref{section:benchmarkresults}.
 
 Les résultats des tests seront présentés sous forme de tableaux qui respecteront les indications suivantes :
 \begin{itemize}
-    \item la colonne \texttt{Indexer} représente l’indexation et la colonne \texttt{Query} l’interrogation ;
-    \item les cinq colonnes suivantes contiennent les cinq critères du résultat : le temps d’indexation (\texttt{indexingTime}), la taille de l’index (\texttt{indexSize}), le temps d’interrogation (\texttt{queryTime}), le rappel (\texttt{queryRecall}) et la précision (\texttt{queryPrecision}) ;
+    \item la colonne \texttt{Indexation} représente les filtres appliqués à l’indexation et la colonne \texttt{Interrogation} les filtres appliqués à l’interrogation (ces deux colonnes sont présentes uniquement sur les tests de filtres) ;
+    \item les cinq colonnes suivantes contiennent les cinq critères du résultat : le temps d’indexation, la taille de l’index, le temps d’interrogation, le rappel et la précision ;
     \item les filtres respectifs des deux premières colonnes ont été indiqués par leur nom seul (par exemple, \texttt{StopFilter} est écrit \texttt{Stop}) ;
-    \item de la même façon, les \texttt{Tokenizers} sont marqués par leur nom seul ;
-    \item l’indication \texttt{None} indique qu’aucun des filtres n’est appliqué.
+    \item de la même façon, les \textit{tokenizers} sont marqués par leur nom seul ;
+    \item l’indication \texttt{None} indique qu’aucun filtre n’est appliqué.
 \end{itemize}
 
-\subsection{Tests sur les Tokenizers}
+\subsection{Tests sur les tokenizers}
 
-Il est à noter que pour ces tests, aucun \texttt{Filter} n’était appliqué ni pour l’indexation ni pour l’interrogation. Nous rappelons également que la liste des \texttt{Tokenizers} et de leurs descriptions respectives est fournie dans la section \ref{section:tokenizer}.
+Il est à noter que pour ces tests, aucun filtre n’était appliqué ni pour l’indexation ni pour l’interrogation. Nous rappelons également que la liste des \textit{tokenizers} et de leurs descriptions respectives sont fournies dans la section \ref{section:tokenizer}.
 
 \begin{table}[!htbp]
     \hspace{-1.5cm}
                 \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
                     \hline
-                    \textbf{Tokenizer} & \textbf{indexingTime} & \textbf{indexSize} & \textbf{queryTime} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Tokenizer} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
                     \hline     
-Keyword & 171.52 & 1255545.0 & 81.4 & 0.0 & NaN\\
+Keyword & 171.52 & 1255545.0 & 81.4 & 0.0 & N/A\\
 		\hline
 Letter & 203.16 & 516710.0 & 269.04 & 0.986997 & 0.029189752\\
 		\hline
@@ -32,21 +32,21 @@ LowerCase & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
 Standard & 196.04 & 527203.0 & 267.04 & 0.986997 & 0.029189767\\
                     \hline
                 \end{tabular}
-                \caption{Tests Tokenizers}
+                \caption{Tests tokenizers}
                 \label{tab:tests_tokenizers}
             \end{table}
 
-Remarque : “NaN” signifie que le résultat est aberrant, la ligne \texttt{Keyword} n’est donc pas prise en compte.
+Remarque : “N/A” signifie que la valeur n'a pas pu être calculée, la ligne \texttt{Keyword} n’est donc pas prise en compte.
 
-On observe dans le tableau \ref{tab:tests_tokenizers} pour le \texttt{LowerCaseTokenizer} des valeurs nettement meilleures que les autres pour le temps d’indexation, la taille de l’index ainsi que pour le rappel. De plus, l'utilisation d'un \texttt{LowerCaseTokenizer} se justifie par le fait que la plupart des filtres ont besoin d'un texte en minuscule pour pouvoir fonctionner (exemple de stopwords, qui ne détecte pas les mots si différence de casse). C’est donc ce \texttt{Tokenizer} que nous utiliserons lors des tests sur les filtres de la section \ref{section:filtrestest}.
+D'après le tableau \ref{tab:tests_tokenizers}, le \texttt{LowerCaseTokenizer} affiche des valeurs nettement meilleures que les autres pour le temps d’indexation, la taille de l’index ainsi que pour le rappel. Bien que le \texttt{LowerCaseTokenizer} ne se contente pas d'un simple découpage en termes (il transforme en plus le texte en minuscules, ce qui serait logiquement du ressort d'un filtre), son utilisation se justifie par le fait que la plupart des filtres ont besoin d'un texte en minuscules pour pouvoir fonctionner. On peut par exemple citer le filtre éliminant les mots vides : la liste de mots vides fournie avec la collection \textbf{CISI} est entièrement en minuscules, le filtre ne pourra donc pas éliminer les mots vides des termes qui lui sont passés s'ils ne sont pas eux-mêmes en minuscules (les filtres étant dans la plupart des cas sensibles à la casse). C’est donc le \texttt{LowerCaseTokenizer} que nous utiliserons lors des tests sur les filtres de la section \ref{section:filtrestest}.
 
-Avant de commencer, nous avons une remarque intéressante concernant le tableau \ref{tab:tests_tokenizers_2}. Nous avons en effet observé lors de nos tests que le \texttt{LowerCaseTokenizer} sans filtre était équivalent au \texttt{LetterTokenizer} filtré par le \texttt{LowerCaseFilter}, malgré quelques différences de temps d’indexation et d’interrogation. Pour plus de simplicité, nous allons tout de même travailler en nous basant sur le \texttt{LowerCaseTokenizer}.
+Avant de passer à l'étude des filtres, nous avons une remarque intéressante concernant le tableau \ref{tab:tests_tokenizers_2}. Nous avons en effet observé lors de nos tests que le \texttt{LowerCaseTokenizer} sans filtre était équivalent au \texttt{LetterTokenizer} filtré par le \texttt{LowerCaseFilter}, malgré quelques différences de temps d’indexation et d’interrogation. Pour plus de simplicité, nous allons travailler en nous basant sur le \texttt{LowerCaseTokenizer}.
 
 \begin{table}[!htbp]
     \hspace{-2.5cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{1.7cm}|p{1.7cm}|}
                     \hline
-                    \textbf{Tokenizer} & \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Tokenizer} & \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
                     \hline
 LowerCase & None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
 		\hline
@@ -60,15 +60,15 @@ Letter & LowerCase & LowerCase & 200.0 & 477504.0 & 269.0 & 0.9892572 & 0.029175
 \subsection{Tests sur les filtres}
 \label{section:filtrestest}
 
-Nous allons maintenant présenter les résultats des tests sur l’influence des différents paramètres d’indexation et d’interrogation. Pour les comparaisons, nous nous baserons sur le tableau de référence (tableau \ref{tab:references}) qui présente les résultats obtenus avec le \texttt{LowerCaseTokenizer} sans aucun filtre appliqué ni sur l’indexation, ni sur l’interrogation.
+Nous allons maintenant présenter les résultats des tests sur l’influence des différents paramètres d’indexation et d’interrogation. Pour les comparaisons, nous nous baserons sur le tableau de référence (tableau \ref{tab:references}) qui présente les résultats obtenus avec le \texttt{LowerCaseTokenizer} sans aucun filtre appliqué ni à l’indexation, ni à l’interrogation.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
                     \hline
-None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
                 \end{tabular}
                 \caption{Table de référence LowerCaseTokenizer}
@@ -82,9 +82,11 @@ Ces trois filtres ont été regroupés dans une même section car au fur et à m
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 LowerCase & None & 205.48 & 477504.0 & 282.48 & 0.9892572 & 0.029175652\\
 		\hline
@@ -97,17 +99,19 @@ LowerCase & LowerCase & 209.08 & 477504.0 & 273.72 & 0.9892572 & 0.029175652\\
                 \label{tab:tests_LowerCaseFilter}
             \end{table}
 
-On constate que les valeurs sont les mêmes que pour le tableau de référence \ref{tab:references}. Cela peut être expliqué par le fait que les opérations effectuées par ces trois filtres (détaillées dans la section \ref{section:filtres}) sont déjà prises en compte par le \texttt{LowerCaseTokenizer} utilisé lors des tests. C’est évident dans le cas du \texttt{LowerCaseFilter}. De plus, le \texttt{LowerCaseTokenizer} supprime déjà les apostrophes, rendant le \texttt{ApostropheFilter} superflu. Enfin, le \texttt{ClassicFilter} applique des séparations déjà réalisées par le \texttt{LowerCaseTokenizer}. On observe tout de même que les temps d’indexation et d’interrogation augmentent généralement  avec l’application d’un \texttt{Filter}. Ceci est compréhensible car Lucene essaye tout de même d’appliquer le \texttt{Filter} malgré son inutilité et perd donc un peu de temps.
+On constate que les valeurs sont les mêmes que pour le tableau de référence \ref{tab:references}. Cela peut s'expliquer par le fait que les opérations effectuées par ces trois filtres (détaillées dans la section \ref{section:filtres}) sont déjà réalisées par le \texttt{LowerCaseTokenizer}, que nous utilisons lors des tests sur les filtres. C’est évident dans le cas du \texttt{LowerCaseFilter}. De plus, le \texttt{LowerCaseTokenizer} supprime déjà les apostrophes, rendant le \texttt{ApostropheFilter} superflu. Enfin, le \texttt{ClassicFilter} applique des séparations déjà réalisées par le \texttt{LowerCaseTokenizer}. On observe tout de même que les temps d’indexation et d’interrogation augmentent généralement  avec l’application d’un filtre. Ceci est compréhensible car Lucene essaie d’appliquer le filtre (malgré son inutilité) et perd donc un peu de temps.
 
 \subsubsection{StopFilter}
 
-Nous avons ensuite jugé que le \texttt{StopFilter} était le plus intéressant à tester. Nous avons donc appliqué la même méthode que précédemment, et stocké les résultats dans le tableau \ref{tab:tests_StopFilter}.
+Nous avons ensuite jugé que le \texttt{StopFilter} était le plus intéressant à tester. Nous avons donc appliqué la même méthode que précédemment. Les résultats sont présentés dans le tableau \ref{tab:tests_StopFilter}.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 Stop & None & 205.36 & 391892.0 & 192.92 & 0.9200954 & 0.035695136\\
 		\hline
@@ -120,19 +124,21 @@ Stop & Stop & 191.24 & 391892.0 & 177.12 & 0.9200954 & 0.035695136\\
                 \label{tab:tests_StopFilter}
             \end{table}
 
-On remarque qu’en supprimant les mots les plus courants du langages, on gagne du temps que ce soit au niveau de l’indexation que de l’interrogation. Un résultat encore une fois logique puisque certains mots étant passés à la trappe, ils ne sont donc pas pris en compte. Cela a aussi des répercussions sur la taille de l’index, qui a diminué.
+On remarque qu’en supprimant les mots les plus courants du langages, on gagne du temps aussi bien au niveau de l’indexation que de l’interrogation. Un résultat encore une fois logique puisque certains mots étant supprimés par l'analyseur, ils ne sont plus pris en compte. Cela a aussi des répercussions sur la taille de l’index, qui a diminué.
 	
-Cependant, on note que le \texttt{queryRecall} a diminué par rapport a la table de référence \ref{tab:references}. Cela s’explique car les mots courants répétés dans de nombreux textes ont été supprimés. Certaines associations de textes qui s’étaient faites grâce à ces mots ne sont donc plus réalisées. C’est aussi pour les mêmes raisons que l’on obtient un précision de meilleur qualité : des liaisons superflues ne sont plus effectuées.
+Cependant, on note que le rappel a diminué par rapport a la table de référence \ref{tab:references}. Cela s’explique par le fait que les mots courants répétés dans de nombreux textes ont été supprimés. Certaines correspondances établies sur des mots vides ne sont donc plus réalisées. C’est aussi pour les mêmes raisons que l’on obtient une meilleure précision : des liaisons superflues ne sont plus effectuées.
 
 \subsubsection{EdgeNGramFilter}
 
-Ce \texttt{Filter} est brièvement décrit dans la section \ref{section:filtres}, mais quelques précisions sont à apporter afin de bien comprendre les tests. En effet, le \texttt{EdgeNGramFilter} dispose de deux paramètres entiers : \texttt{minGramSize} et \texttt{maxGramSize}. Le premier représente la taille minimale des sous-préfixes retournés (sa valeur a été modifiée lors des tests) et le second représente leur taille maximale (sa valeur est restée à sa valeur par défaut, 15, lors des tests). Les résultats du tableau \ref{tab:tests_EdgeNGramFilter1} sont ceux obtenus avec \texttt{minGramSize} = 1.
+Ce filtre est brièvement décrit dans la section \ref{section:filtres}, mais quelques précisions sont à apporter afin de bien comprendre les tests. En effet, le \texttt{EdgeNGramFilter} dispose de deux paramètres entiers : \texttt{minGramSize} et \texttt{maxGramSize}. Le premier représente la taille minimale des sous-préfixes retournés (sa valeur a été modifiée lors des tests) et le second représente leur taille maximale (sa valeur est restée à la valeur par défaut lors des tests : 15). Les résultats du tableau \ref{tab:tests_EdgeNGramFilter1} sont ceux obtenus avec \texttt{minGramSize} = 1.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 EdgeNGram & None & 176.28 & 199220.0 & 120.0 & 0.44611046 & 0.02081615\\
 		\hline
@@ -149,9 +155,11 @@ Les résultats présentés dans le tableau \ref{tab:tests_EdgeNGramFilter5} sont
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 EdgeNGram & None & 183.44 & 199220.0 & 124.0 & 0.44611046 & 0.02081615\\
 		\hline
@@ -164,15 +172,17 @@ EdgeNGram & EdgeNGram & 170.6 & 199220.0 & 391.6 & 1.0 & 0.028064167\\
                 \label{tab:tests_EdgeNGramFilter5}
             \end{table}
 
-On peut conclure (dans cet exemple en tout cas) que la valeur du paramètre \texttt{minGramSize} n’a pas d'influence sur les résultats retournés, à l’exception des temps d’indexation et d’interrogation qui sont plus longs avec un \texttt{minGramSize} plus élevé.
+On peut déduire, dans le cas de la collection \textbf{CISI}, que la valeur du paramètre \texttt{minGramSize} n’a pas d'influence sur les résultats retournés, à l’exception des temps d’indexation et d’interrogation qui sont plus longs avec un \texttt{minGramSize} plus élevé.
 
 \subsubsection{ASCIIFoldingFilter}
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 ASCIIFolding & None & 217.64 & 477504.0 & 283.32 & 0.9892572 & 0.029175652\\
 		\hline
@@ -185,7 +195,7 @@ ASCIIFolding & ASCIIFolding & 195.2 & 477504.0 & 274.0 & 0.9892572 & 0.029175652
                 \label{tab:tests_ASCIIFoldingFilter}
             \end{table}
 
-Avec le tableau \ref{tab:tests_ASCIIFoldingFilter} dans lequel on a testé \texttt{ASCIIFoldingFilter}, on constate peu d’écarts avec le tableau de référence \ref{tab:references}. Ceci est normal puisque le texte analysé est en anglais et comporte donc peu (voire pas) d’accents. Cependant, comme pour les filtres de la section \label{section:filtrespourris}, on observe une légère augmentation des temps d’indexation et d’interrogation due au temps perdu par Lucene à tenter d’appliquer le \texttt{ASCIIFoldingFilter}.
+Le tableau \ref{tab:tests_ASCIIFoldingFilter} donne les résultats pour les tests du \texttt{ASCIIFoldingFilter} : on constate peu d’écarts avec le tableau de référence \ref{tab:references}. Ceci est normal puisque le texte analysé est en anglais et comporte donc peu (voire pas) d’accents. Cependant, comme pour les filtres de la section \label{section:filtrespourris}, on observe une légère augmentation des temps d’indexation et d’interrogation due au temps perdu par Lucene à appliquer le \texttt{ASCIIFoldingFilter}.
 
 \subsubsection{WordDelimiterFilter}
 
@@ -193,7 +203,9 @@ Avec le tableau \ref{tab:tests_ASCIIFoldingFilter} dans lequel on a testé \text
     \hspace{-2cm}
                 \begin{tabular}{|p{2.1cm}|p{2.1cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 WordDelimiter & None & 211.88 & 477504.0 & 276.96 & 0.9892572 & 0.029175652\\
 		\hline
@@ -206,20 +218,19 @@ WordDelimiter & WordDelimiter & 199.64 & 477504.0 & 273.96 & 0.9892572 & 0.02917
                 \label{tab:tests_WordDelimiterFilter}
             \end{table}
 
-Ce \texttt{Filter} dont les résultats sont affichés tableau \ref{tab:tests_WordDelimiterFilter} s’occupe de supprimer les tirets et autres caractères non alpahnumériques, ce qui est déjà réalisé par le \texttt{LowerCaseTokenizer}. Cependant, il dispose aussi d’autres fonctionnalités qui permettent par exemple de séparer les mots en fonction de la casse. Malheureusement très peu de mot en \textit{CamelCase} se retrouve dans la base de données, on observe donc pas de changement significatif.
+Ce filtre, dont les résultats sont donnés dans le tableau \ref{tab:tests_WordDelimiterFilter}, supprime les tirets et autres caractères non alphanumériques, ce qui est déjà réalisé par le \texttt{LowerCaseTokenizer}. Cependant, il dispose aussi d’autres fonctionnalités qui permettent par exemple de séparer les mots en fonction de la casse. Or, très peu de mot en \textit{CamelCase} se retrouve dans la collection \textbf{CISI}, on n'observe donc aucun changement significatif.
 
 \subsubsection{SynonymFilter}
 
-On applique maintenant le \texttt{SynonymFilter} avec le \texttt{LowerCaseTokenizer}. Les résultats du tableau \ref{tab:tests_SynonymFilterexpandfalse} sont obtenu avec le paramètre \texttt{expand} à \texttt{false} tandis que le tableau \ref{tab:tests_SynonymFilterexpandtrue} est obtenu avec ce paramètre à \texttt{true}
-On remarque une grosse différence de temps qui est due à la base de donnée de synonyme très grande. On pourrait diminuer ce temps en choisissant par exemple une base de données plus petite mais aussi plus centrée sur nos données pour ne pas perdre en précision.
-Bien que les temps soit très élevés, ils permettent d’obtenir de meilleurs résultats pour le \texttt{queryRecall} tout en perdant un minimum de \texttt{queryPrecision}.
-
+On applique maintenant le \texttt{SynonymFilter} avec le \texttt{LowerCaseTokenizer}. Deux configurations de ce filtre sont possibles, grâce au paramètre \texttt{expand}. En mettant sa valeur à vrai, l'ensemble des synonymes d'un terme sont ajoutés à l'index (lors de la phase d'indexation) ou à la requête (lors de la phase d'interrogation). Avec \texttt{expand} à faux, tous les synonymes d'un mot seront remplacés par ce mot uniquement (et non par l'ensemble de ses synonymes). Les résultats du tableau \ref{tab:tests_SynonymFilterexpandfalse} sont obtenus avec le paramètre \texttt{expand} à faux tandis que ceux du tableau \ref{tab:tests_SynonymFilterexpandtrue} sont obtenus avec le paramètre à vrai. On remarque immédiatement une forte augmentation des temps d'indexation et d'interrogation, qui est due à la taille de la base de synonymes utilisée. Nous avons en effet effectué nos tests avec la base de synonymes généralistes \textbf{WordNet}, qui est très grande. On pourrait limiter cette augmentation en choisissant par exemple une base de données plus spécialisée, les articles de la collection \textbf{CISI} concernant principalement la recherche informatique : la base de synonymes pourrait alors gagner en qualité tout en diminuant drastiquement en taille. En ce qui concerne la qualité des résultats, ils sont plutôt bons : nous avons gagné en rappel tout en perdant un minimum de \texttt{queryPrecision}.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 Synonym & None & 1045.44 & 815344.0 & 283.56 & 0.9885024 & 0.029133203\\
 		            \hline
@@ -234,9 +245,11 @@ Synonym & Synonym & 1055.92 & 815344.0 & 1003.2 & 0.9912973 & 0.028918015\\
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 Synonym & None & 1418.4 & 2060410.0 & 294.2 & 0.9920426 & 0.028849905\\
         \hline
@@ -251,13 +264,15 @@ Synonym & Synonym & 1448.72 & 2060410.0 & 1515.96 & 0.99823326 & 0.02887677\\
 
 \subsubsection{SnowBallFilter}
 
-En utilisant cette fois le \texttt{snowballFilter} (tableau \ref{tab:tests_SnowBallFilter}), on obtient de très bons résultats en \texttt{QueryRecall} pour un minimum de temps supplémentaire, et très peu de perte de précision.
+Le dernier filtre étudié est le \texttt{SnowBallFilter} (tableau \ref{tab:tests_SnowBallFilter}). On obtient une nouvelle fois de bons résultats : on augmente le rappel pour un minimum de temps supplémentaire, et en limitant la perte de précision.
 
 \begin{table}[!htbp]
     \hspace{-2cm}
-                \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2.5cm}|p{2.5cm}|}
+                \begin{tabular}{|p{2.5cm}|p{2.5cm}|p{2cm}|p{2cm}|p{2.5cm}|p{2cm}|p{2cm}|}
                     \hline
-                    \textbf{Indexer} & \textbf{Query} & \textbf{indexing Time} & \textbf{index Size} & \textbf{query Time} & \textbf{queryRecall} & \textbf{queryPrecision}\\
+                    \textbf{Indexation} & \textbf{Interrogation} & \textbf{Temps \mbox{indexation}} & \textbf{Taille \mbox{index}} & \textbf{Temps \mbox{interrogation}} & \textbf{Rappel} & \textbf{Précision}\\
+                    \hline
+                    None & None & 195.6 & 477504.0 & 273.76 & 0.9892572 & 0.029175652\\
                     \hline
 SnowBall & None & 281.64 & 408772.0 & 263.52 & 0.96616405 & 0.026495365\\
 		            \hline

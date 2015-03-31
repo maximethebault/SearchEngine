@@ -34,8 +34,8 @@ Le problème étant très simple, la modélisation d’une \texttt{Entry} sous f
 
 Un \texttt{Document} représente un article de la collection \textbf{CISI} (c’est à dire une \texttt{Entry}) :
 \begin{itemize}
-\item Un champ \texttt{id} pour identifier l’article de manière unique (avec \texttt{indexed} à faux et \texttt{stored} à vrai)
-\item Un champ \texttt{contents} qui contiendra le nom et le contenu de l’article (avec \texttt{indexed} à vrai et \texttt{stored} à faux)\\
+\item Un champ \textbf{id} pour identifier l’article de manière unique (avec \texttt{indexed} à faux et \texttt{stored} à vrai)
+\item Un champ \textbf{contents} qui contiendra le nom et le contenu de l’article (avec \texttt{indexed} à vrai et \texttt{stored} à faux)\\
 \end{itemize}
 
 La configuration de l’index et sa création sont assurées par la classe abstraite \texttt{IndexingStrategy}. Chacune des sous-classes d’\texttt{IndexingStrategy} permet de mettre en œuvre une configuration différente de l’index (au besoin, on peut donc créer plusieurs modélisations différentes des articles de la collection \textbf{CISI} \textit{via} plusieurs sous-classes).
@@ -46,13 +46,13 @@ Les classes \texttt{IndexingStrategy} et \texttt{QueryingStrategy}, complétées
 
 \subsection{Configuration de l'analyseur}
 
-Comme on a pu le voir dans la partie \ref{section:lucene} de ce rapport, \textbf{Lucene} n’insère pas les documents tels quels dans son index. Chacun des champs textuels passent par l’analyseur, qui découpe le texte en termes et qui les filtre (ajout, suppression ou modification des termes avant insertion dans l’index). On a pu voir qu’il existait une grande variété de tokenizer et de filtres : c’est autant de possibilité d’analyseurs différents. C’est sur ces configurations différentes d’analyseurs que portera notre étude, il est donc important de pouvoir facilement les configurer pour pouvoir exécuter l’évaluation de leurs performances aussi simplement que possible.
+Comme on a pu le voir dans la partie \ref{section:lucene} de ce rapport, \textbf{Lucene} n’insère pas les documents tels quels dans son index. Chacun des champs textuels passent par l’analyseur, qui découpe le texte en termes et qui les filtre (ajout, suppression ou modification des termes avant insertion dans l’index). On a pu voir qu’il existait une grande variété de \textit{tokenizers} et de filtres : c’est autant de possibilité d’analyseurs différents. C’est sur ces configurations différentes d’analyseurs que portera notre étude, il est donc important de pouvoir facilement les configurer pour pouvoir exécuter l’évaluation de leurs performances aussi simplement que possible.
 
-C’est à cette problématique que répond la classe \texttt{ConfigurableIndexer}, sous-classe de \texttt{IndexingStrategy}. Son constructeur permet de configurer l’analyseur souhaité, d’une part en spécifiant le nom du \texttt{Tokenizer}, et d’autre part en spécifiant la liste de filtres à appliquer, avec leurs paramètres de configuration optionnels (la classe \texttt{TokenFilterConfig} permet de décrire le nom du filtre et les paramètres à utiliser).
+C’est à cette problématique que répond la classe \texttt{Configurable\-Indexer}, sous-classe de \texttt{Index\-ing\-Strategy}. Son constructeur permet de configurer l’analyseur souhaité, d’une part en spécifiant le nom du \textit{tokenizer}, et d’autre part en spécifiant la liste de filtres à appliquer, avec leurs paramètres de configuration optionnels (la classe \texttt{TokenFilterConfig} permet de décrire le nom du filtre et les paramètres à utiliser).
 
 Encore une fois, la symétrie entre l’indexation et l’interrogation est marquée : on retrouve une classe \texttt{ConfigurableQuery} répondant exactement à la même problématique pour la phase d’interrogation.
 
-On a donc configuré les parties “Traitement des documents” et “Traitement des requêtes” grâce aux classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}. Nous avons toutes les clés en main pour créer et interroger l’index avec n’importe quelle configuration d’analyseur. Il nous reste maintenant à prélever du processus les critères définis à la partie //TODO//.
+On a donc configuré les parties “Traitement des documents” et “Traitement des requêtes” grâce aux classes \texttt{ConfigurableIndexer} et \texttt{ConfigurableQuery}. Nous avons toutes les clés en main pour créer et interroger l’index avec n’importe quelle configuration d’analyseur. Il nous reste maintenant à prélever du processus les critères définis à la partie \ref{section:methodologie}.
 
 \subsection{Évaluation des résultats}
 \label{section:benchmarkresults}
@@ -64,7 +64,6 @@ Les temps d’indexation et d’interrogation sont de simples différences de te
 
 La taille de l’index est fixée pour une configuration d’analyseur donnée, il n’est donc pas nécessaire de répéter plusieurs fois l’indexation pour obtenir une valeur moyenne. La valeur est directement donnée par la classe \texttt{IndexingStrategy}.
 
-Les calculs de la précision et du rappel demande quant à eux un peu plus de travail : il faudra dans un premier temps analyser le fichier de la collection \textbf{CISI} donnant les résultats attendus pour chacune des requêtes, avant de les comparer avec les résultats expérimentaux donnés par la classe \texttt{QueryingStrategy}. La classe \texttt{QueryBenchmark} est chargée de ces différentes opérations. Les résultats d’une recherche sont manipulés dans le programme \textit{via} la classe \textit{SearchResults}.
+Les calculs de la précision et du rappel demandent quant à eux un peu plus de travail : il faudra dans un premier temps analyser le fichier de la collection \textbf{CISI} donnant les résultats théoriques pour chacune des requêtes, avant de les comparer avec les résultats expérimentaux donnés par la classe \texttt{QueryingStrategy}. La classe \texttt{QueryBenchmark} est chargée de ces différentes opérations. Les résultats d’une recherche sont manipulés dans le programme \textit{via} la classe \textit{SearchResults}.
 
 Nous avons ainsi éclairci le rôle de chacune des classes de notre programme. Une dernière classe, nommée \texttt{Main}, vient orchestrer l’évaluation des différentes configurations d’analyseurs telles que nous les définirons dans la prochaine partie.
-
