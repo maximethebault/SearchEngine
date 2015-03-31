@@ -17,6 +17,8 @@
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
 
+\usepackage{varwidth}
+\usepackage{color}
 \usepackage{hyperref}
 \usepackage{xcolor}
 \hypersetup{
@@ -53,6 +55,8 @@
 	\section*{\appendixname~{\thesection}: #1}
     }
 
+\newcommand\MyColorBox[1]{%
+  \colorbox{gray!25}{\begin{varwidth}{\dimexpr\linewidth-2\fboxsep}#1\end{varwidth}}}
 
 \begin{document}
 	\maketitle
