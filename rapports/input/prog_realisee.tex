@@ -1,49 +1,54 @@
 \section{Programme réalisé}
 
-Cette partie est la plus technique du rapport. Elle n’est pas nécessaire à la compréhension de l’étude, mais donne simplement des détails sur le programme conçu et utilisé pour évaluer les performances de Lucene.
+Cette partie est la plus technique du rapport. Elle n’est pas nécessaire à la compréhension de l’étude, mais donne simplement des détails sur le programme conçu et utilisé pour évaluer les performances de \textbf{Lucene}.
 
-Pour décrire le programme, nous allons nous appuyer sur le schéma donné en annexe //TODO//, qui décrit une utilisation générique de Lucene. Cela décrit donc la structure générale de notre programme. Nous allons lier chacune des tâches répertoriées dans le cadre “Programme utilisant Lucene” du schéma à une partie de notre programme.
+Pour décrire le programme, nous allons nous appuyer sur le schéma donné en annexe //TODO//, qui décrit une utilisation générique de \textbf{Lucene}. Cela décrit donc la structure générale de notre programme. Nous allons lier chacune des tâches répertoriées dans le cadre “Programme utilisant \textbf{Lucene}” du schéma à une partie de notre programme.
 
 \subsection{Extraction des données textuelles}
 
-Comme nous avons pu le voir dans la section //TODO// de ce rapport, la première étape consiste à extraire les données textuelles d’un fichier HTML, Word, PDF, etc. Dans notre cas, nous utilisons la collection CISI qui liste un ensemble d’articles dans un simple fichier texte suivant le format décrit à la figure //TODO//.
+Comme nous avons pu le voir dans la section \ref{section:fonctionnementGeneral} de ce rapport, la première étape consiste à extraire les données textuelles d’un fichier HTML, Word, PDF, etc. Dans notre cas, nous utilisons la collection \textbf{CISI} qui liste un ensemble d’articles dans un simple fichier texte suivant le format décrit à la figure \ref{formatTexte}.
 
-.I 1
-Titre de l’article 1
-Contenu de l’article 1
-.I 2
-Titre de l’article 2
-Contenu de l’article 2
-.I 3
-Titre de l’article 3
-Contenu de l’article 3
-...
+
+ \begin{figure}[h]
+ .I 1\\
+ Titre de l’article 1\\
+ Contenu de l’article 1\\
+ .I 2\\
+ Titre de l’article 2\\
+ Contenu de l’article 2\\
+ .I 3\\
+ Titre de l’article 3\\
+ Contenu de l’article 3\\
+ ...
+            \caption{Format des fichiers}
+            \label{formatTexte}
+ \end{figure}
 
 On remarque que chaque article possède un identifiant et du contenu (nous avons décidé de fusionner le titre et le corps de l’article étant donné qu’il n’y a aucune utilité à les maintenir séparés). Un article est ainsi représenté par la classe \texttt{Entry}. La classe chargée d’analyser le fichier d’entrée pour en créer les \texttt{Entry} correspondants est \texttt{EntryExtractor}.
 L’extraction des données textuelles est ainsi terminée. Nous allons maintenant étudier les parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe //TODO//.
 
 \subsection{Définition et configuration des champs}
 
-Il est maintenant nécessaire de transformer ces \texttt{Entry} en \texttt{Document} : comme pour l’exemple de la bibliothèque de la partie //TODO//, il faut avant tout trouver un modèle pour représenter nos données. Par la suite, il faudra créer l’index Lucene.
+Il est maintenant nécessaire de transformer ces \texttt{Entry} en \texttt{Document} : comme pour l’exemple de la bibliothèque de la partie \ref{section:indexation}, il faut avant tout trouver un modèle pour représenter nos données. Par la suite, il faudra créer l’index \textbf{Lucene}.
 Le problème étant très simple, la modélisation d’une \texttt{Entry} sous forme de \texttt{Document} et de \texttt{Field} (champs) est assez aisée :
 
-Un \texttt{Document} représente un article de la collection CISI (c’est à dire une \texttt{Entry}) :
+Un \texttt{Document} représente un article de la collection \textbf{CISI} (c’est à dire une \texttt{Entry}) :
 \begin{itemize}
-\item Un champ “id” pour identifier l’article de manière unique (avec “indexed” à faux et “stored” à vrai)
-\item Un champ “contents” qui contiendra le nom et le contenu de l’article (avec “indexed” à vrai et “stored” à faux)
+\item Un champ \texttt{id} pour identifier l’article de manière unique (avec \texttt{indexed} à faux et \texttt{stored} à vrai)
+\item Un champ \texttt{contents} qui contiendra le nom et le contenu de l’article (avec \texttt{indexed} à vrai et \texttt{stored} à faux)\\
 \end{itemize}
 
-La configuration de l’index et sa création sont assurées par la classe abstraite \texttt{IndexingStrategy}. Chacune des sous-classes d’\texttt{IndexingStrategy} permet de mettre en œuvre une configuration différente de l’index (au besoin, on peut donc créer plusieurs modélisations différentes des articles de la collection CISI \textit{via} plusieurs sous-classes).
+La configuration de l’index et sa création sont assurées par la classe abstraite \texttt{IndexingStrategy}. Chacune des sous-classes d’\texttt{IndexingStrategy} permet de mettre en œuvre une configuration différente de l’index (au besoin, on peut donc créer plusieurs modélisations différentes des articles de la collection \textbf{CISI} \textit{via} plusieurs sous-classes).
 
-Il existe une symétrie assez marquée entre l’indexation et l’interrogation : pour cette dernière phase, il faut une fois de plus aller chercher les requêtes prédéfinies de la collection CISI dans un fichier au format similaire à celui des articles. On utilise donc là encore les classes \texttt{Entry} et \texttt{EntryExtractor}, avant d’aller interroger Lucene grâce à la classe abstraite \texttt{QueryingStrategy}. Comme pour l’indexation, il faudra créer des sous-classes pour implémenter l’interrogation : on permet ainsi la prise en compte de modélisations différentes du \texttt{Document} et de ses texttt{Field}.
+Il existe une symétrie assez marquée entre l’indexation et l’interrogation : pour cette dernière phase, il faut une fois de plus aller chercher les requêtes prédéfinies de la collection \textbf{CISI} dans un fichier au format similaire à celui des articles. On utilise donc là encore les classes \texttt{Entry} et \texttt{EntryExtractor}, avant d’aller interroger \textbf{Lucene} grâce à la classe abstraite \texttt{QueryingStrategy}. Comme pour l’indexation, il faudra créer des sous-classes pour implémenter l’interrogation : on permet ainsi la prise en compte de modélisations différentes du \texttt{Document} et de ses \texttt{Field}.
 
-Les classes \texttt{IndexingStrategy} et \texttt{QueryingStrategy}, complétées par leurs sous-classes, répondent donc aux parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe //TODO//. Nous allons maintenant voir que ces sous-classes ont un autre rôle : elles vont influer sur les parties “Traitement des documents” et “Traitement des requêtes”, qui, bien que gérées par Lucene, peuvent être configurées directement depuis notre programme.
+Les classes \texttt{IndexingStrategy} et \texttt{QueryingStrategy}, complétées par leurs sous-classes, répondent donc aux parties “Définition et configuration des champs ; création des documents” et “Configuration de la recherche : champs à interroger et champs à récupérer” du schéma en annexe //TODO//. Nous allons maintenant voir que ces sous-classes ont un autre rôle : elles vont influer sur les parties “Traitement des documents” et “Traitement des requêtes”, qui, bien que gérées par \textbf{Lucene}, peuvent être configurées directement depuis notre programme.
 
 \subsection{Configuration de l'analyseur}
 
-Comme on a pu le voir dans la partie //TODO// de ce rapport, Lucene n’insère pas les documents tels quels dans son index. Chacun des champs textuels passent par l’analyseur, qui découpe le texte en termes et qui les filtre (ajout, suppression ou modification des termes avant insertion dans l’index). On a pu voir qu’il existait une grande variété de tokenizer et de filtres : c’est autant de possibilité d’analyseurs différents. C’est sur ces configurations différentes d’analyseurs que portera notre étude, il est donc important de pouvoir facilement les configurer pour pouvoir exécuter l’évaluation de leurs performances aussi simplement que possible.
+Comme on a pu le voir dans la partie \ref{section:lucene} de ce rapport, \textbf{Lucene} n’insère pas les documents tels quels dans son index. Chacun des champs textuels passent par l’analyseur, qui découpe le texte en termes et qui les filtre (ajout, suppression ou modification des termes avant insertion dans l’index). On a pu voir qu’il existait une grande variété de tokenizer et de filtres : c’est autant de possibilité d’analyseurs différents. C’est sur ces configurations différentes d’analyseurs que portera notre étude, il est donc important de pouvoir facilement les configurer pour pouvoir exécuter l’évaluation de leurs performances aussi simplement que possible.
 
-C’est à cette problématique que répond la classe \texttt{ConfigurableIndexer}, sous-classe de \texttt{IndexingStrategy}. Son constructeur permet de configurer l’analyseur souhaité, d’une part en spécifiant le nom du tokenizer, et d’autre part en spécifiant la liste de filtres à appliquer, avec leurs paramètres de configuration optionnels (la classe \texttt{TokenFilterConfig} permet de décrire le nom du filtre et les paramètres à utiliser).
+C’est à cette problématique que répond la classe \texttt{ConfigurableIndexer}, sous-classe de \texttt{IndexingStrategy}. Son constructeur permet de configurer l’analyseur souhaité, d’une part en spécifiant le nom du \texttt{Tokenizer}, et d’autre part en spécifiant la liste de filtres à appliquer, avec leurs paramètres de configuration optionnels (la classe \texttt{TokenFilterConfig} permet de décrire le nom du filtre et les paramètres à utiliser).
 
 Encore une fois, la symétrie entre l’indexation et l’interrogation est marquée : on retrouve une classe \texttt{ConfigurableQuery} répondant exactement à la même problématique pour la phase d’interrogation.
 
@@ -59,7 +64,7 @@ Les temps d’indexation et d’interrogation sont de simples différences de te
 
 La taille de l’index est fixée pour une configuration d’analyseur donnée, il n’est donc pas nécessaire de répéter plusieurs fois l’indexation pour obtenir une valeur moyenne. La valeur est directement donnée par la classe \texttt{IndexingStrategy}.
 
-Les calculs de la précision et du rappel demande quant à eux un peu plus de travail : il faudra dans un premier temps analyser le fichier de la collection CISI donnant les résultats attendus pour chacune des requêtes, avant de les comparer avec les résultats expérimentaux donnés par la classe \texttt{QueryingStrategy}. La classe \texttt{QueryBenchmark} est chargée de ces différentes opérations. Les résultats d’une recherche sont manipulés dans le programme \textit{via} la classe \textit{SearchResults}.
+Les calculs de la précision et du rappel demande quant à eux un peu plus de travail : il faudra dans un premier temps analyser le fichier de la collection \textbf{CISI} donnant les résultats attendus pour chacune des requêtes, avant de les comparer avec les résultats expérimentaux donnés par la classe \texttt{QueryingStrategy}. La classe \texttt{QueryBenchmark} est chargée de ces différentes opérations. Les résultats d’une recherche sont manipulés dans le programme \textit{via} la classe \textit{SearchResults}.
 
 Nous avons ainsi éclairci le rôle de chacune des classes de notre programme. Une dernière classe, nommée \texttt{Main}, vient orchestrer l’évaluation des différentes configurations d’analyseurs telles que nous les définirons dans la prochaine partie.
 

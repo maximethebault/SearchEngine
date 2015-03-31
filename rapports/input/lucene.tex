@@ -1,4 +1,5 @@
 \section{Lucene}
+\label{section:lucene}
 
 Dans cette première partie, nous abordons Lucene, le moteur de recherche que nous avons choisi d’évaluer. Après une présentation général du projet Lucene, nous donnons un aperçu de son fonctionnement pour ensuite entrer dans les détails des composants pouvant être configurées.
 
@@ -15,11 +16,13 @@ Pour explorer le web, la méthode de référence est devenue la recherche par mo
 La bibliothèque est aujourd’hui utilisée par des sites web comme Wikipedia, Akamai ou SourceForge ; mais elle est aussi utilisée par des applications telles que Eclipse, JIRA, Nutch ou Solr (ces deux dernières applications étant elles-mêmes des outils de plus haut niveau que Lucene facilitant la mise en place d’un moteur de recherche). Grâce à ses très bonnes performances et sa fiabilité, elle est au cœur de nombreux projets traitant de la récupération d’informations.
 
 \subsection{Fonctionnement général}
+\label{section:fonctionnementGeneral}
 
 Pour s’affranchir de potentiels problèmes de format (PDF, HTML, Word, etc.), Lucene a créé sa propre abstraction. Ainsi, l’objet manipulé par la bibliothèque logicielle est le document, qui est composé d’un ou plusieurs champs qui contiennent du texte.
 L’utilisation de Lucene est décomposée en deux grandes parties : la première étape consiste en l’indexation des documents. C’est seulement après cette étape que l’on pourra interroger Lucene pour retrouver les documents correspondants à une requête de l’utilisateur.
 
 \subsubsection{Indexation}
+\label{section:indexation}
 
 Pour cette première étape, il faut avant tout extraire le texte que l’on veut indexer d’un fichier HTML, PDF ou Word (cette tâche n’est pas assurée par Lucene et est à la charge du programmeur). Ensuite, il faut en créer un document. Par exemple, si l’on veut indexer une bibliothèque pour permettre à ses usagers de trouver un livre à partir de mots-clés de son résumé, on pourra utiliser la modélisation suivante pour les documents :
 
