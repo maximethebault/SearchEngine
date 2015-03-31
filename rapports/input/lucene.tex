@@ -60,7 +60,7 @@ Pour permettre une recherche efficace, le texte contenu dans les champs d’un d
 \subsubsection{Le découpage en termes}
 \label{section:tokenizer}
 
-\textbf{Lucene} met à disposition plusieurs \texttt{Tokenizers} prédéfinis, dont le fonctionnement est synthétisé dans le tableau \ref{tab:decoupage_termes}. Pour illustrer leurs actions, la troisième colonne donne les différents termes produits pour le texte d’entrée “Voit-on J.M. demain ?”.
+\textbf{Lucene} met à disposition plusieurs \textit{tokenizers} prédéfinis, dont le fonctionnement est synthétisé dans le tableau \ref{tab:decoupage_termes}. Pour illustrer leurs actions, la troisième colonne donne les différents termes produits pour le texte d’entrée “Voit-on J.M. demain ?”.
  
             \begin{table}[!htbp]
                 \centering
@@ -127,7 +127,7 @@ Nous avons initialement décrit l’analyse (découpage et filtrage des termes) 
 
 \begin{table}[!htbp]
     \hspace{-3cm}
-                \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+                \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|c|p{3cm}|p{3cm}|}
                     \hline
                     \textbf{Configuration de l’analyseur} & \textbf{Texte en entrée} & \textbf{Texte analysé} & \textbf{Correspondance} & \textbf{Requête analysée} & \textbf{Requête en entrée}\\
                     \hline                    
