@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{lmodern}
 \usepackage[left=3cm, right=3cm, bottom=4cm, top=4cm]{geometry}
 \usepackage{array}
@@ -23,7 +24,7 @@
 }
 
 
-\title{Rapport de projet d'acquisition de Connaissances}
+\title{\textbf{Rapport de projet d'acquisition de connaissances}\\Étude d’un moteur de recherche existant et évaluation comparative}
 
 \author
 {
@@ -46,6 +47,14 @@
 
 
 \begin{document}
+	\maketitle
+	\thispagestyle{empty}
+	\begin{tikzpicture}[remember picture, overlay]
+   	 \node [anchor=south west, inner sep=10pt, outer sep=80pt]  at (current page.south west)
+   	  {\includegraphics[width=4cm]{figure/logo_insa.png}};
+     \node [anchor=south east, inner sep=20pt, outer sep=80pt]  at (current page.south east)
+	  {\includegraphics[width=4cm]{figure/logo_lucene.png}};
+	\end{tikzpicture}
     % Ouh c'est sale.
     \hypersetup{pageanchor=false}
     %\includepdf[pages=1]{figure/couv.pdf}
