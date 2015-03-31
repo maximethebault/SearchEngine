@@ -2,3 +2,8 @@ atlassian-ide-plugin.xml
 .idea
 gen
 out
+*.log
+*.aux
+*.out
+*.toc
+*.pdf
