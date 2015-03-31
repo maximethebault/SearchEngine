@@ -28,15 +28,15 @@ Pour cette première étape, il faut avant tout extraire le texte que l’on veu
 
 Le document représente un livre :
 \begin{itemize}
-  \item Un champ ISBN pour identifier un livre de manière unique
-  \item Un champ titre
-  \item Un champ auteur
-  \item Un champ résumé
-  \item Un champ rayon pour permettre de retrouver le livre dans la bibliothèque
+  \item Un champ \textbf{ISBN} pour identifier un livre de manière unique
+  \item Un champ \textbf{titre}
+  \item Un champ \textbf{auteur}
+  \item Un champ \textbf{résumé}
+  \item Un champ \textbf{rayon} pour permettre de retrouver le livre dans la bibliothèque
 \end{itemize}
 
 ~~\\
-On remarque que tous les champs ne seront pas utiles à la recherche. Par exemple, l’usager d’une bibliothèque ne recherchera jamais un livre suivant sa position en rayon : s’il sait déjà où se trouve le livre, il saura déjà quel est le titre du livre, qui en est l’auteur, etc. En revanche, si l’utilisateur recherche un livre à partir de mots-clés du résumé, il peut être intéressant de lui indiquer où il se trouve dans la bibliothèque. Ainsi, le champ d’un document \textbf{Lucene} dispose de deux paramètres de configuration : \texttt{indexed} qui indique à \textbf{Lucene} \textit{via} une valeur booléenne si le champ pourra faire l’objet d’une requête de l’usager (le paramètre sera par exemple à vrai pour le champ résumé, mais à faux pour le champ rayon), et \texttt{stored} qui indique si le champ sera affiché dans les résultats de la recherche. La performance de la recherche dépendra de ces paramètres. De manière logique, si l’on rend tous les champs cherchables (\texttt{indexed} à vrai), la recherche sera plus longue.
+On remarque que tous les champs ne seront pas utiles à la recherche. Par exemple, l’usager d’une bibliothèque ne recherchera jamais un livre suivant sa position en rayon : s’il sait déjà où se trouve le livre, il saura déjà quel est le titre du livre, qui en est l’auteur, etc. En revanche, si l’utilisateur recherche un livre à partir de mots-clés du résumé, il peut être intéressant de lui indiquer où il se trouve dans la bibliothèque. Ainsi, le champ d’un document \textbf{Lucene} dispose de deux paramètres de configuration : \texttt{indexed} qui indique à \textbf{Lucene} \textit{via} une valeur booléenne si le champ pourra faire l’objet d’une requête de l’usager (le paramètre sera par exemple à vrai pour le champ \textbf{résumé}, mais à faux pour le champ \textbf{rayon}), et \texttt{stored} qui indique si le champ sera affiché dans les résultats de la recherche. La performance de la recherche dépendra de ces paramètres. De manière logique, si l’on rend tous les champs cherchables (\texttt{indexed} à vrai), la recherche sera plus longue.
 
 Une fois que le problème est modélisé sous forme de documents et de champs, et que ces derniers sont correctement configurés, nous pouvons procéder à l’indexation. Un index n’est rien d’autre qu’une forme condensée des documents en entrée permettant une recherche rapide et efficace. L’indexation permettra de créer et de mettre à jour l’index, tandis que l’interrogation se contentera de le consulter pour répondre à une requête de l’utilisateur.
 
